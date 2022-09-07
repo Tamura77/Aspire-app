@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+
 import './App.css';
+import map1 from "./images/campusmap.jpg";
+import race from "./images/race.png";
+import tasks from "./images/tasks.png";
+import map2 from "./images/map.png";
+import links from "./images/links.png";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Aspire race around campus
-        </a>
-      </header>
+
+      <div className='modes'>
+
+      <img src={race} className="race-button" alt="race"/>
+      <img src={tasks} className="tasks-button" alt="tasks"/>
+      <img src={map2} className="map-button" alt="map2"/>
+      <img src={links} className="links-button" alt="links"/>
+      </div>
     </div>
   );
 }
