@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from 'react';
 import './App.css';
 import map1 from "./images/campusmap.jpg";
 import race from "./images/race.png";
@@ -7,9 +7,16 @@ import map2 from "./images/map.png";
 import links from "./images/links.png";
 
 function App() {
+  
+  const [title, setTile] = useState("")
+
+  useEffect(() => {
+    fetch("/api").then(res => res.json()).then(data => setTile(data.title))
+  }, [])
+
   return (
     <div className="App">
-
+      <h1>{title}</h1>
       <div className='modes'>
 
       <img src={race} className="race-button" alt="race"/>
