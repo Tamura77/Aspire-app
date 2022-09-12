@@ -3,7 +3,7 @@
 
 
 .App{
-  background-image: url(images/campusmap.jpg);
+  background-image: url(assets/images/campusmap.jpg);
   height: 100vh;
   margin: 1%;
 }
