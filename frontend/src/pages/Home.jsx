@@ -1,3 +1,6 @@
+import {useQuery} from "@tanstack/react-query";
+import { fetchExample } from "../requests/example";
+
 import map1 from "../assets/images/campusmap.jpg";
 import race from "../assets/images/race.png";
 import tasks from "../assets/images/tasks.png";
@@ -6,9 +9,11 @@ import links from "../assets/images/links.png";
 
 
 function Home() {
+    const {data, error, isError, isLoading} = useQuery(["example"], fetchExample);
+
     return (
         <div>
-            <h1>A</h1>
+            <h1>{isLoading ? "Loading..." : data.title}</h1>
             <div className='modes'>
                 <img src={race} className="race-button" alt="race" />
                 <img src={tasks} className="tasks-button" alt="tasks" />

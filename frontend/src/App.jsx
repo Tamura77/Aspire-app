@@ -8,16 +8,8 @@ import About from './pages/About';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
-
-  const [title, setTile] = useState("")
-
-  useEffect(() => {
-    fetch("/api").then(res => res.json()).then(data => setTile(data.title))
-  }, [])
-
   return (
     <div className="App">
-      <h1>Test</h1>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
