@@ -24,14 +24,14 @@ function Home() {
                 <Link to="/PageNotFound">
                 <img src={tasks} className="tasks-button" alt="tasks" />
                 </Link>
-                <Link to="/PageNotFound">
+                <Link to="Map">
                 <img src={map2} className="map-button" alt="map2" />
                 </Link>
                 <Link to="/PageNotFound">
                 <img src={links} className="links-button" alt="links" />
                 </Link>
-                <button onClick={() => {navigate("/PageNotFound");}}
-                >Go to not found</button>
+                <button onClick={() => {navigate("About");}}
+                >Go to About</button>
             </div>
         </div>
     )

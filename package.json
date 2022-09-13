@@ -11,5 +11,9 @@
   },
   "devDependencies": {
     "concurrently": "^7.4.0"
+  },
+  "dependencies": {
+    "react-simple-maps": "^3.0.0",
+    "react-tooltip": "^4.2.21"
   }
 }
