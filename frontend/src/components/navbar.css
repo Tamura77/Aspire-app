@@ -1,0 +1,12 @@
+.iconDefault {
+    font-size: 100px;
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 0px;
+    color: rgb(166,166,166);
+}
+
+.navbarDefault {
+    padding: 0px;
+    border-radius: 75px 75px 0px 0px;
+}
