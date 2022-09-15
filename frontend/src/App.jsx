@@ -8,6 +8,7 @@ import './App.css';
 import Home from './pages/Home';
 import About from './pages/About';
 import Map from './pages/Map';
+import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="About" element={<About />} />
         <Route path="Map" element={<Map/>}/>
+        <Route path="Help" element={<Help/>}/>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
