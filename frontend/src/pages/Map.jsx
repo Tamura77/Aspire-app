@@ -33,6 +33,11 @@ const markers = [
     name: "Example 3",
     coordinates: [-122.419418,37.774929],
   },
+  {
+    markerOffset: -15,
+    name: "",
+    coordinates: [0,0],
+  },
 ];
 const geoUrl= map;
 
