@@ -1,6 +1,15 @@
 
 /* Home page */
-
+html{
+  height: 100%;
+  overflow: hidden;
+}
+body{
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
 .home{
   background-image: url(assets/images/campusmap.jpg);
   height: 100vh;
@@ -9,17 +18,24 @@
 
 /* Map page */
 .mappage{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* width: 100%; */
+  /* height: 100%; */
+  /* display: flex;
+  flex-direction: column; */
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.mappage img{
+  width: 200%;
 }
 
 .campusmap{
-  width: 1400px;
-  border-style: double;
+  position: absolute;
+  width: 200%;
+  left: 0;
+  top: 0;
+  /* border-style: double; */
 }
 
 .markers{

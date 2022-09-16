@@ -1,10 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import { fetchExample } from "../requests/example";
 import React, {useState} from "react"
-import map from "../assets/images/map.json"
+// import { CheckboxSVGMap } from "react-svg-map";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import AspireNavbar from "../components/navbar";
+// import map from "../assets/images/map.json"
+// import map from "../assets/images/SummerSchoolMap.svg"
+import map from "../assets/images/campusmap.svg"
 
 import {
 ComposableMap,
@@ -40,17 +43,19 @@ function Map() {
   const navigate = useNavigate();
     return (
       <div className="mappage">
-        <h1>Campus Map</h1>
+        <img src={map} alt="campus map"></img>
+        {/* <h1>Campus Map</h1> */}
         <div className="campusmap">
+          {/* <CheckboxSVGMap map={map} /> */}
         <ComposableMap data-tip="">
-          <ZoomableGroup zoom ={1}>
-            <Geographies geography={geoUrl}>
+          {/* <ZoomableGroup zoom ={1}> */}
+            {/* <Geographies geography={geoUrl}>
                 {({ geographies })=>
                 geographies.map((geo) =>(
                     <Geography key={geo.rsmKey} geography={geo}/>
                 ))
                 }
-            </Geographies>
+            </Geographies> */}
             {
               markers.map(({name, coordinates, markerOffset}) =>(
                 <Marker key={name} coordinates={coordinates}>
@@ -71,7 +76,7 @@ function Map() {
             }}>
 
             </Annotation>
-            </ZoomableGroup>
+          {/* </ZoomableGroup> */}
         </ComposableMap>
         <AspireNavbar />
         </div>
