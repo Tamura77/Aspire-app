@@ -13,6 +13,7 @@ import Navbar from "react-bootstrap/Navbar"
 // Navbar Component
 function AspireNavbar() {
     return (
+        <div className="navbarPadding">
         <Navbar className="fixed-bottom navbarDefault" expand="sm" bg="light" variant="light">
             <Nav className="m-auto">
                 <Nav.Link href="/">
@@ -26,6 +27,7 @@ function AspireNavbar() {
                 </Nav.Link>
             </Nav>
         </Navbar>
+        </div>
     );
 }
 

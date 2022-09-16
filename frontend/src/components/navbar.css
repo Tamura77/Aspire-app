@@ -8,5 +8,9 @@
 
 .navbarDefault {
     padding: 0px;
-    border-radius: 75px 75px 0px 0px;
+}
+
+.navbarPadding {
+    padding-top: 124px;
+    background-color: rgb(230,230,230);
 }
