@@ -3,8 +3,9 @@ import { fetchExample } from "../requests/example";
 import React, {useState} from "react"
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
+import map from "../assets/images/campusmap.svg";
+import HelpButton from "../components/helpButton";
 import AspireNavbar from "../components/navbar";
-import map from "../assets/images/campusmap.svg"
 
 import {
 ComposableMap,
@@ -134,6 +135,7 @@ function Map() {
             }
         </ComposableMap>
         <AspireNavbar />
+        <HelpButton />
         </div>
       </div>
     );

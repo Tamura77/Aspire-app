@@ -1,0 +1,21 @@
+/* CSS for helpButton component */
+
+.helpButton {
+    width: 60px;
+    height: 60px;
+
+    border: none;
+    border-radius: 0px 0px 0px 20px;
+    padding: 0px;
+    margin: 0px;
+
+    font-size: 40px;    
+    font-weight bold;
+
+    background-color: rgb(188,189,192) !important;
+    color: rgb(255,255,255);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
