@@ -18,43 +18,49 @@ import {
     
     import ReactTooltip from "react-tooltip";
     
-    // set of markers rendered
-    
+    //markers to be rendered
     const markers = [];
     
     //Dummy data base of markers
     
     const markersDB = [
       {
-        name: "1",
+        name: "Building 1",
         coordinates: [-58.3816, -34.6037],
         online: true,
-        info: "tall building"
+        info: "tall building",
+        number: 0,
+        colour: "#008000"
       },
       {
-        name: "2",
+        name: "Building 6",
         coordinates: [144.963058, -37.813629],
         online: true,
-        info: "small building"
+        info: "small building",
+        colour: "#FF0000"
       },
       {
-        name: "3",
+        name: "Building 4",
         coordinates: [-122.419418,37.774929],
         online: true,
-        info: "tall building"
+        info: "tall building",
+        colour: "#FF0000"
       },
       {
-        name: "4",
+        name: "Building 2",
         coordinates: [0,0],
-        online: false,
-        info: "tall building"
+        online: true,
+        info: "tall building",
+        colour: "#FF0000"
       },
+      
     ];
     
     //Filters out offline buildings
     
     for (var i = 0; i < markersDB.length; i++){
       if (markersDB[i].online){
+        markersDB[i].number = i+1;
         markers.push(markersDB[i]);
       }
     }
@@ -64,8 +70,12 @@ import {
     function popup(name, info){
       alert(name +info);
     }
-    
 
+    function done(number){
+        alert("colour" + markers[number].colour);
+        markers[number].colour = "#008000";
+      }
+    
 
 function Home() {
     const {data, error, isError, isLoading} = useQuery(["example"], fetchExample);
@@ -74,14 +84,14 @@ function Home() {
 
     <div className="mappage">
       <img src={map} alt="campus map"></img>
-      <div className="campusmap">
+      <div className="campusmap" key = {Math.random() + Date.now()}>
       <ComposableMap data-tip="">
           {
-            markers.map(({name, coordinates, info}) =>(
-              <Marker onClick={() => popup(name, info)}key={name} coordinates={coordinates}>
-                <circle r={15} fill="#F10" stroke="#fff" strokeWidth={1}/>
+            markers.map(({name, coordinates, info, number, colour}) =>(
+              <Marker onClick={() => done(number)}key={name} coordinates={coordinates}>
+                <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
                 <text className="markers" y={5}>
-                  {name}
+                  {number}
                 </text>
               </Marker>
             ))

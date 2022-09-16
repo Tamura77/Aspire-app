@@ -17,46 +17,38 @@ ZoomableGroup,
 
 import ReactTooltip from "react-tooltip";
 
-// set of markers rendered
 
-const markers = [];
 
 //Dummy data base of markers
 
-const markersDB = [
-  {
-    name: "1",
-    coordinates: [-58.3816, -34.6037],
-    online: true,
-    info: "tall building"
-  },
-  {
-    name: "2",
-    coordinates: [144.963058, -37.813629],
-    online: true,
-    info: "small building"
-  },
-  {
-    name: "3",
-    coordinates: [-122.419418,37.774929],
-    online: true,
-    info: "tall building"
-  },
-  {
-    name: "4",
-    coordinates: [0,0],
-    online: false,
-    info: "tall building"
-  },
-];
-
-//Filters out offline buildings
-
-for (var i = 0; i < markersDB.length; i++){
-  if (markersDB[i].online){
-    markers.push(markersDB[i]);
-  }
-}
+ const markers = [
+      {
+        name: "Building 1",
+        coordinates: [-58.3816, -34.6037],
+        online: true,
+        info: "tall building",
+        number: 0
+      },
+      {
+        name: "Building 6",
+        coordinates: [144.963058, -37.813629],
+        online: true,
+        info: "small building"
+      },
+      {
+        name: "Building 4",
+        coordinates: [-122.419418,37.774929],
+        online: true,
+        info: "tall building"
+      },
+      {
+        name: "Building 2",
+        coordinates: [0,0],
+        online: true,
+        info: "tall building"
+      },
+      
+    ];
 
 //Popupfunction
 
@@ -78,8 +70,8 @@ function Map() {
               markers.map(({name, coordinates, info}) =>(
                 <Marker onClick={() => popup(name, info)}key={name} coordinates={coordinates}>
                   <circle r={15} fill="#F10" stroke="#fff" strokeWidth={1}/>
-                  <text className="markers" y={5}>
-                    {name}
+                  <text className="markers" y={-20}>
+                    {""}
                   </text>
                 </Marker>
               ))
