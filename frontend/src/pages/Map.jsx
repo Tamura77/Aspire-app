@@ -17,38 +17,51 @@ ZoomableGroup,
 
 import ReactTooltip from "react-tooltip";
 
+// set of markers rendered
 
-const markers = [
+const markers = [];
+
+//Dummy data base of markers
+
+const markersDB = [
   {
     markerOffset: -15,
     name: "Example 1",
     coordinates: [-58.3816, -34.6037],
+    online: true
   },
   {
     markerOffset: -15,
     name: "Example 2",
     coordinates: [144.963058, -37.813629],
+    online: true
   },
   {
     markerOffset: -15,
     name: "Example 3",
     coordinates: [-122.419418,37.774929],
+    online: false
   },
   {
     markerOffset: -15,
-    name: "",
+    name: "example 4",
     coordinates: [0,0],
+    online: false
   },
 ];
 
-//List function
+//Filters out offline buildings
 
-
-
+for (var i = 0; i < markersDB.length; i++){
+  if (markersDB[i].online){
+    markers.push(markersDB[i]);
+  }
+}
 
 //Main map
 
 function Map() {
+
   const navigate = useNavigate();
     return (
       <div className="mappage">
@@ -65,16 +78,6 @@ function Map() {
                 </Marker>
               ))
             }
-            <Annotation subject={[-58.3816, -34.6037]}
-            dx={2.42*(144.963058+58.3816)}
-            dy={3.42*(37.813629-34.6037)}
-            connectorProps={{
-              stroke:"#FF5933",
-              strokeWidth:3,
-              strokeLinecap: "round",
-            }}>
-
-            </Annotation>
         </ComposableMap>
         <AspireNavbar />
         </div>
