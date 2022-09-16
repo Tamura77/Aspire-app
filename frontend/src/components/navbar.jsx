@@ -15,7 +15,7 @@ function AspireNavbar() {
     return (
         <Navbar className="fixed-bottom navbarDefault" expand="sm" bg="light" variant="light">
             <Nav className="m-auto">
-                <Nav.Link href="/PageNotFound">
+                <Nav.Link href="/">
                     <TbDeviceGamepad2 className="iconDefault" />
                 </Nav.Link>
                 <Nav.Link href="/Map">
