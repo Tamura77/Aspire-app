@@ -22,6 +22,7 @@ import {
     const markers = [];
     
     //Dummy data base of markers
+    // Max coordinates are [180,-89]
     
     const markersDB = [
       {
@@ -85,7 +86,7 @@ function Home() {
     <div className="mappage">
       <img src={map} alt="campus map"></img>
       <div className="campusmap" key = {Math.random() + Date.now()}>
-      <ComposableMap data-tip="">
+      <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width="793" height="1269" >
           {
             markers.map(({name, coordinates, info, number, colour}) =>(
               <Marker onClick={() => done(number)}key={name} coordinates={coordinates}>
