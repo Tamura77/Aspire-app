@@ -28,25 +28,29 @@ const markersDB = [
     markerOffset: -15,
     name: "Example 1",
     coordinates: [-58.3816, -34.6037],
-    online: true
+    online: true,
+    info: "tall building"
   },
   {
     markerOffset: -15,
     name: "Example 2",
     coordinates: [144.963058, -37.813629],
-    online: true
+    online: true,
+    info: "small building"
   },
   {
     markerOffset: -15,
     name: "Example 3",
     coordinates: [-122.419418,37.774929],
-    online: false
+    online: true,
+    info: "tall building"
   },
   {
     markerOffset: -15,
     name: "example 4",
     coordinates: [0,0],
-    online: false
+    online: false,
+    info: "tall building"
   },
 ];
 
@@ -56,6 +60,12 @@ for (var i = 0; i < markersDB.length; i++){
   if (markersDB[i].online){
     markers.push(markersDB[i]);
   }
+}
+
+//Popupfunction
+
+function popup(name, info){
+  alert(name +info);
 }
 
 //Main map
@@ -69,8 +79,8 @@ function Map() {
         <div className="campusmap">
         <ComposableMap data-tip="">
             {
-              markers.map(({name, coordinates, markerOffset}) =>(
-                <Marker key={name} coordinates={coordinates}>
+              markers.map(({name, coordinates, markerOffset, info}) =>(
+                <Marker onClick={() => popup(name, info)}key={name} coordinates={coordinates}>
                   <circle r={5} fill="#F10" stroke="#fff" strokeWidth={1}/>
                   <text className="markers" y={markerOffset}>
                     {name}
