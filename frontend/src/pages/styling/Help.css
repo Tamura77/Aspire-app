@@ -1,0 +1,46 @@
+/* CSS for Help.jsx*/
+
+
+.helpWrappingDiv {
+    border: 0px;
+    background-color: rgb(230,230,230);
+    padding-bottom: 124px;
+    padding-top: 10px;
+}
+
+.helpDiv {
+    background-color: rgb(217,217,217);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.helpTitle {
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+.helpSubHeader {
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.helpText {
+    font-size: 24px;
+    padding: 8px;
+}
+
+.helpIcon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    padding: 0px;
+}
+
+.redIcon {
+    color: rgb(234,53,43);
+}
+
+.orangeIcon {
+    color: rgb(255,168,0);
+}

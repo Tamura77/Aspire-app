@@ -9,78 +9,134 @@ import { MdLocationPin } from "react-icons/md";
 // Components
 import AspireNavbar from "../components/navbar";
 
+// CSS
+import "./styling/Help.css"
+
+// Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 // Help page for information on how to use the website
 function Help() {
     return (
         <>
-        <div className="helpDiv"> 
-            <h3 className="helpTitle">
-                Race Mode
-            </h3>
-            <div>
-                <div className="helpText">
-                    Switch to the race page using the navbar and enter the racecode provided. Then wait for the race to begin
-                </div>
-                <div className="helpIcon">
-                    <TbDeviceGamepad2 />
-                </div>
-                <div className="helpText">
-                    To answer the questions press on the waypoint and answer in the popup.
-                </div>
-                <div className="helpIcon">
-                    <MdLocationPin /> 
-                </div>
-                <div className="helpText">
-                    Once you answer the waypoint will turn orange indicating its time to get your answer checked
-                </div>
-                <div className="helpIcon">
-                    <MdLocationPin /> 
-                </div>
-                <div className="helpText">
-                    Press the submit button and then pass the device to an administrator for marking
-                </div>
-                <div className="helpText">
-                    If you got the answer correct the waypoint will turn green
-                </div>
-                <div className="helpIcon">
-                    <MdLocationPin /> 
-                </div>
+        <div className="helpWrappingDiv">
+        <Container>
+            <div className="helpDiv" align="left">
+                <Row>
+                    <Col>
+                        <div className="helpTitle" align="center">Race Mode</div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Switch to the race page and enter the race code provided. Then wait for the race to start
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <TbDeviceGamepad2 className="helpIcon" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="helpText">
+                            Answer all the questions then submit your answers for marking
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="helpSubHeader">
+                            To answer a question
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Press on the waypoint and answer in the popup<br/>
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <MdLocationPin className="helpIcon redIcon" align="center" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Once you answer the waypoint will turn orange, indicating its time to get your answer checked
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <MdLocationPin className="helpIcon orangeIcon" align="center" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="helpText">
+                            After answering you will have the option to submit your answers, at this point press the submit button and pass the device to an administrator for marking
+                        </div>
+                    </Col>
+                </Row>
             </div>
-        </div>
-        <div className="helpDiv"> 
-            <h3 className="helpTitle">
-                Information Mode
-            </h3>
-            <div>
-                <div className="helpText">
-                    Switch to the information page using the navbar
-                </div>
-                <div className="helpIcon">
-                    <TbMap2 />
-                </div>
-                <div className="helpText">
-                    Press the orange circles to show additional information about the locations
-                </div>
-                <div className="helpIcon">
-                    <MdLocationPin /> 
-                </div>
+            <div className="helpDiv" align="left">
+                <Row>
+                    <Col>
+                        <div className="helpTitle" align="center">
+                            Information Mode
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Switch to the information page using the navbar
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <TbMap2 className="helpIcon" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Press on a waypoint to show additional information about that location
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <MdLocationPin className="helpIcon" />
+                    </Col>
+                </Row>
             </div>
-        </div>
-        <div className="helpDiv"> 
-            <h3 className="helpTitle">
-                Useful Links
-            </h3>
-            <div>
-                <div className="helpText">
-                    Switch to the useful links page using the navbar
-                </div>
-                <div className="helpIcon">
-                    <RiLinksLine />
-                </div>
-                <div className="helpText">
-                    Press on the appropriate links to find addtional information
-                </div>
+            <div className="helpDiv" align="left">
+                <Row>
+                    <Col>
+                        <div className="helpTitle" align="center">
+                            Useful Links 
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="9">
+                        <div className="helpText">
+                            Switch to the information page using the navbar
+                        </div>
+                    </Col>
+                    <Col md="3">
+                        <RiLinksLine className="helpIcon" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="helpText">
+                            Click on the link of the page you want to visit 
+                        </div>
+                    </Col>
+                </Row>
             </div>
+        </Container>
         </div>
         <AspireNavbar />
         </>
