@@ -117,7 +117,7 @@ import {
     }
 
     function done(number){
-        alert("colour" + markers[number].colour);
+        alert(markers[number-1].task);
         markers[number].colour = "#008000";
       }
     
@@ -130,9 +130,9 @@ function Home() {
     <div className="mappage">
       <img src={map} alt="campus map"></img>
       <div className="campusmap" key = {Math.random() + Date.now()}>
-      <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width="793" height="1269" >
+      <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269} >
           {
-            markers.map(({name, coordinates, info, number, colour}) =>(
+            markers.map(({name, coordinates, task, number, colour}) =>(
               <Marker onClick={() => done(number)}key={name} coordinates={coordinates}>
                 <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
                 <text className="markers" y={5}>
