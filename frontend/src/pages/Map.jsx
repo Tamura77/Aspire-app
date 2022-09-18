@@ -117,11 +117,6 @@ function Map() {
   var [infoName, setInfoName] = useState("");
   var [infoDesc, setInfoDesc] = useState("");
 
-  // maybe useful for reloading the popup
-  useEffect(() => {
-  }, [modalShow])
-
-
   return (
     <div className="mappage">
       <img src={map} alt="campus map"></img>
@@ -135,9 +130,6 @@ function Map() {
                     setInfoName(name);
                     setInfoDesc(description);
                     setModalShow(true);
-
-                    console.log(infoName);
-                    console.log(infoDesc);
                   }
                 } 
                 key={name} coordinates={coordinates}>

@@ -4,13 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import "./infoPopup.css";
 
 function AspireInfoPopup(props){
-    // var [name] = useState(props.name);
-    // var [description] = useState(props.description);
-
-    // console.log("in popup:");
-    // console.log(name);
-    // console.log(description);
-
     return (
     <Modal
         {...props}
