@@ -22,7 +22,7 @@ function AspireNavbar() {
                 <Nav.Link href="/Map">
                     <TbMap2 className="iconDefault"/>
                 </Nav.Link>
-                <Nav.Link href="/PageNotFound">
+                <Nav.Link href="/ExternalLinks">
                     <RiLinksLine className="iconDefault"/>
                 </Nav.Link>
             </Nav>

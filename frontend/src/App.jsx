@@ -6,7 +6,7 @@ import './App.css';
 
 //Pages 
 import Home from './pages/Home';
-import About from './pages/About';
+import ExternalLinks from './pages/ExternalLinks';
 import Map from './pages/Map';
 import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
@@ -15,8 +15,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="About" element={<About />} />
+        <Route path="/" element={<Home/>} />
+        <Route path="ExternalLinks" element={<ExternalLinks/>} />
         <Route path="Map" element={<Map/>}/>
         <Route path="Help" element={<Help/>}/>
         <Route path="*" element={<PageNotFound />} />

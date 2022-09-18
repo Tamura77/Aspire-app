@@ -1,0 +1,14 @@
+.eLinksDiv {
+    background-color: white;
+    padding: 20px;
+}
+
+.eLinksDiv h1 {
+    font-weight: 700;
+    margin-top: 1em;
+}
+
+.eLinksDiv h3 {
+    font-weight: 500;
+    font-size: 22pt;
+}

@@ -8,6 +8,7 @@ import HelpButton from "../components/helpButton";
 import AspireNavbar from "../components/navbar";
 import AspireInfoPopup from "../components/infoPopup";
 import ReactTooltip from "react-tooltip";
+import "./styling/Map.css";
 
 import {
 ComposableMap,
@@ -103,6 +104,36 @@ ZoomableGroup,
         name: "Bayliss Building",
         coordinates: [-32,-35],
         description: "Inside the 17,000-square-metre complex, you'll find a ton of facilities, along with an impressive DNA double helix design on the west wall of the central atrium, and the intricate Penrose tiled floor. There's also advanced labs on every level to suit your needs."
+      },
+      {
+        name: "Bilya Marlee",
+        coordinates: [48,-68],
+        description: "An Indigenous knowledge gateway housing the School of Indigenous Studies, the Bilya Marlee building is a beautiful building overlooking the Swan River. As seen by the massive art piece that drapes across a two-storey wall, Bilya Marlee translates to 'River of the Swan'."
+      },
+      {
+        name: "Barry J Marshall Library",
+        coordinates: [-30,-65],
+        description: "The Barry J Marshall Library houses more than 1000 study spaces including collaborative informal study spaces, technology-equipped group work rooms, and silent study spaces."
+      },
+      {
+        name: "Business School",
+        coordinates: [60,-88.1],
+        description: "Located next to the Swan River and surrounded by native trees, the UWA Business School provides a collaborative learning environment with two large lecture theatres, tutorial rooms, a reception area and a cafeteria. There's also a range of flexible spaces in which to meet, work and learn, with access to computer labs, private study rooms and lounge areas."
+      },
+      {
+        name: "Koi Garden and Pond",
+        coordinates: [9,58],
+        description: "The traditional Japanese garden and koi pond, donated to the University by Tokyu Corporation in 1976, is centrally located within the Social Sciences building. The theme of the garden is the integration of the Western Australian natural environment with traditional Japanese landscape design. It is also known for it's lovely koi who love to follow students as they pass by."
+      },
+      {
+        name: "Apoxyomenos, the Statue of Physics",
+        coordinates: [-102,77],
+        description: "Standing tall in the centre of the Physics building foyer is Apoxyomenos, a statue which replicates the work of great Greek Sculptor Lysippus who lived during the 4th century BC. Gifted to UWA in 1962 by the University of Rome, Apoxyomenos greets students, new and old, as they return to the study of Physics."
+      },
+      {
+        name: "New Fortune Theatre",
+        coordinates: [-22, 81.6],
+        description: "An open-air stage inside the University's Arts Building, the New Fortune Theatre offers a unique patron experience. Galleries on three levels and on all sides provide an immersive experience similar to that offered by the original Fortune Theatre in London in 1600."
       },
     ];
 
