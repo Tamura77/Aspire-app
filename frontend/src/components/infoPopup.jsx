@@ -7,7 +7,6 @@ function AspireInfoPopup(props){
     return (
     <Modal
         {...props}
-        onEntered = {console.log("entered")}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
