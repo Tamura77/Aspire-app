@@ -6,7 +6,7 @@ import "./racePopup.css";
 
 function AspireRacePopup(props){
 
-    var [raceColour, setRaceColour] = useState(props.colour);
+    var [inputValue, setInputValue] = useState(props.answer);
     
     return (
         <Modal
@@ -26,8 +26,11 @@ function AspireRacePopup(props){
             {props.task}
         </p>
         <Form>
-            <Form.Group className="mb-3" controlId="form.ControlTextarea1">
-                <Form.Control placeholder="enter answer here" as="textarea" rows={3} />
+            <Form.Group className="mb-3" controlId="formControlTextarea1">
+                <Form.Control placeholder="enter answer here" as="textarea" rows={3} 
+                type="text">
+                    {inputValue}
+                </Form.Control >
           </Form.Group>
         </Form>
         </Modal.Body>
@@ -35,9 +38,7 @@ function AspireRacePopup(props){
         <Modal.Footer>
         <Button variant="secondary" onClick={props.onHide}>Close</Button>
         <Button variant="primary" onClick={function(e){
-            setRaceColour("#00FF00");
-            props.updateColour;
-            console.log(props.colour);
+            props.updateMarkerAnswer(props.name, inputValue);
         }}>Save changes</Button>
         </Modal.Footer>
     </Modal>

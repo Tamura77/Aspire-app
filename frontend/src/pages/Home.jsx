@@ -35,6 +35,7 @@ const markersDB = [
     task: "How many peacocks and peahens live on campus?",
     colour: "#FF0000",
     number: 0,
+    answer: "",
   },
   {
     name: "University Club of Western Australia",
@@ -108,10 +109,10 @@ const markersDB = [
 for (var i = 0; i < markersDB.length; i++){
   if (markersDB[i].online){
     markersDB[i].number = i+1;
+    markersDB[i].answer = "";
     markersBuffer.push(markersDB[i]);
   }
 }
-
 
 
 function Home() {
@@ -122,26 +123,35 @@ function Home() {
   // name and description for popup with method to update values
   var [raceName, setRaceName] = useState("");
   var [raceTask, setRaceTask] = useState("");
-  var [raceColour, setRaceColour] = useState("");
-  
-  // States of markers
+  var [raceAnswer, setRaceAnswer] = useState("");
+
+    // States of markers
   var [markers, setMarkers] = useState(markersBuffer);
 
-  const markersList = markers.map(({name, coordinates, task, number, colour}) =>(
+  function updateMarkerAnswer(id, newAnswer){
+    var updatedMarkers = markers.map((marker) => {
+      if (marker.name == id){
+        return {...marker, colour: "#2D932B", answer: newAnswer}
+      }
+      return marker;
+    });
+    setMarkers(updatedMarkers);
+  }
+
+  const markersList = markers.map(({name, coordinates, task, number, colour, answer}) =>(
     <Marker 
       onClick={function(e){
         setRaceName(name);
         setRaceTask(task);
-        setRaceColour(colour);
+        setRaceAnswer(answer);
         setModalShow(true);
         }
       }
       key={name}
       coordinates={coordinates}
-      allMarkers = {markers}
-      updateMarker = {setMarkers}
+      updateMarkerColour = {updateMarkerAnswer}
       >
-        <circle r={15} fill={raceColour} stroke="#fff" strokeWidth={1}/>
+        <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
         <text className="markers" y={5}>
           {number}
         </text>
@@ -161,9 +171,9 @@ function Home() {
       <AspireRacePopup
         name = {raceName}
         task = {raceTask}
-        colour = {raceColour}
-        updateColour = {() => setRaceColour("#00FF00")}
+        updateMarkerAnswer = {updateMarkerAnswer}
         show = {modalShow}
+        answer = {raceAnswer}
         onHide={() => setModalShow(false)}
       />
       </div>
