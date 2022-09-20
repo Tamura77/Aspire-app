@@ -20,19 +20,17 @@ app.get("/cool", function(req, res) {
     }
     console.log('Connected to the database.');
   });
-
+  var params = [];
   db.serialize(() => {
-    db.each(`SELECT * FROM teams`, (err, row) => {
+    db.all(`SELECT name, description, coordinates FROM places`, params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
-      const rows = [];
-      rows.push(row);
-      console.log(row);
-      res.send(rows);
+      console.log(rows);
+      res.json(rows);
     });
   });
-
+  
   // close the database connection
   db.close((err) => {
     if (err) {
