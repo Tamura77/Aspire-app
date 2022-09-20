@@ -1,52 +1,19 @@
-const express = require("express");
-const app = express();
-const cors = require("cors")
-app.use(cors())
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-const sqlite3 = require('sqlite3').verbose();
+var routes = require("./routes")
 
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
+var app = express();
 
-app.get("/cool", function(req, res) {
-  const data = [];
-  // open database
-  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log('Connected to the database.');
-  });
-  var params = [];
-  db.serialize(() => {
-    db.all(`SELECT name, description, coordinates FROM places`, params, (err, rows) => {
-      if (err) {
-        console.error(err.message);
-      }
-      console.log(rows);
-      res.json(rows);
-    });
-  });
-  
-  // close the database connection
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log('Close the database connection.');
-  });
-})
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.get("/", function(req, res) {
-  res.send();
-});
-let port = process.env.PORT;
-if(port == null || port == "") {
- port = 5000;
-}
-app.listen(port, function() {
- console.log("Server started successfully");
-});
+//app.use(express.static(path.join(__dirname, 'public')));
+
+app.use("/api/v1", routes)
+
+module.exports = app;
