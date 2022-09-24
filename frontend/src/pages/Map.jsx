@@ -3,6 +3,7 @@ import {useQuery} from "@tanstack/react-query";
 import { fetchExample } from "../requests/example";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
+import axios from 'axios';
 
 import HelpButton from "../components/helpButton";
 import AspireNavbar from "../components/navbar";
@@ -25,7 +26,8 @@ ZoomableGroup,
 // Dummy data base of markers
 // Max coordinates are [180,-89]
 
-const markers = [
+
+const markers1 = [
     {
       name: "Sunken Garden",
       coordinates: [-105, 87.8],
@@ -139,16 +141,24 @@ const markers = [
     },
   ];
 
+
 //Main map
 
 function Map() {
   const [modalShow, setModalShow] = React.useState(false);
-
-  const navigate = useNavigate();
-
-  // name and description for popup with method to update values
+  const [markers, setMarkers] = React.useState(null);
   var [infoName, setInfoName] = useState("");
   var [infoDesc, setInfoDesc] = useState("");
+  const navigate = useNavigate();
+
+  React.useEffect(() =>{axios.get("http://localhost:5000/cool",  { crossdomain: true }).then(response => {
+    setMarkers(response.data);
+    console.log(markers);
+    //document.getElementById("test").innerHTML = text;
+  });
+  }, []);
+
+  // name and description for popup with method to update values
 
   return (
     <div className="mappage">
@@ -156,7 +166,7 @@ function Map() {
       <div className="campusmap">
       <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}>
           {
-            markers.map(({name, coordinates, description}) =>(
+            markers1.map(({name, coordinates, description}) =>(
               <Marker 
                 onClick={
                   function(e){
