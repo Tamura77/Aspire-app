@@ -166,7 +166,7 @@ function Map() {
       <div className="campusmap">
       <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}>
           {
-            markers1.map(({name, coordinates, description}) =>(
+            markers.map(({name, coordinates, description}) =>(
               <Marker 
                 onClick={
                   function(e){
