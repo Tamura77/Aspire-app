@@ -104,11 +104,23 @@ const markersDB = [
   
 ];
 
+/*
+Use of code to input offset and building number
+Examples code would be D410D
+D = default (no special case)
+4 indicates offset of 4 (start at building 5, not 1)
+10 indicates there are 10 buildings to go to today
+Now the array will loop from building 5 through to 10,
+then it will start counting again from array index zero.
+*/
+var offset = 4;
+var noOfBuildings = 10;
+
 //Filters out offline buildings
 
 for (var i = 0; i < markersDB.length; i++){
   if (markersDB[i].online){
-    markersDB[i].number = i+1;
+    markersDB[i].number = ((i+ offset)%noOfBuildings) + 1;
     markersDB[i].answer = "";
     markersBuffer.push(markersDB[i]);
   }
