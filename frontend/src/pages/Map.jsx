@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useQuery} from "@tanstack/react-query";
 import { fetchExample } from "../requests/example";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +25,6 @@ ZoomableGroup,
 
 // Dummy data base of markers
 // Max coordinates are [180,-89]
-
 
 const markers1 = [
     {
@@ -141,61 +140,61 @@ const markers1 = [
     },
   ];
 
+  
+  //Main map
+  
+  function Map() {
+    const [modalShow, setModalShow] = React.useState(false);
+    var [infoName, setInfoName] = useState("");
+    var [infoDesc, setInfoDesc] = useState("");
+    const navigate = useNavigate();
+  
+    const fetchArray = async () => {
+      const {data} = await axios.get("http://localhost:5000/cool");
+      localStorage.setItem("markers", JSON.stringify(data));
+    }
 
-//Main map
+    // Hook for on mount (loading of page)
+    useEffect(() => {
+      fetchArray();
+    }, [])
+  
+    // Maps locations from database to markers
+    const markersList = JSON.parse(localStorage.getItem("markers")).map(({name, coordinates, description}) =>(
+      <Marker 
+        onClick={
+          function(e){
+            setInfoName(name);
+            setInfoDesc(description);
+            setModalShow(true);
+          }
+        } 
+        key={name} coordinates={coordinates.split(",").map(Number)}>
+        <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
+        <text className="markers" y={-20}>
+          {""}
+        </text>
+      </Marker>
+    ))
 
-function Map() {
-  const [modalShow, setModalShow] = React.useState(false);
-  const [markers, setMarkers] = React.useState(null);
-  var [infoName, setInfoName] = useState("");
-  var [infoDesc, setInfoDesc] = useState("");
-  const navigate = useNavigate();
-
-  React.useEffect(() =>{axios.get("http://localhost:5000/cool",  { crossdomain: true }).then(response => {
-    setMarkers(response.data);
-    console.log(markers);
-    //document.getElementById("test").innerHTML = text;
-  });
-  }, []);
-
-  // name and description for popup with method to update values
-
-  return (
-    <div className="mappage">
-      <img src={map} alt="campus map"></img>
-      <div className="campusmap">
-      <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}>
-          {
-            markers.map(({name, coordinates, description}) =>(
-              <Marker 
-                onClick={
-                  function(e){
-                    setInfoName(name);
-                    setInfoDesc(description);
-                    setModalShow(true);
-                  }
-                } 
-                key={name} coordinates={coordinates}>
-                <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
-                <text className="markers" y={-20}>
-                  {""}
-                </text>
-              </Marker>
-              
-              ))
-            }
-      </ComposableMap>
-      <AspireNavbar />
-      <HelpButton />
-      <AspireInfoPopup
-        name={infoName}
-        description={infoDesc}
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+    return (
+      <div className="mappage">
+        <img src={map} alt="campus map"></img>
+        <div className="campusmap">
+        <ComposableMap projection="geoMercator" projectionConfig={{ scale: 130 }} width={793} height={1269}> 
+          {markersList}
+        </ComposableMap>
+        <AspireNavbar />
+        <HelpButton />
+        <AspireInfoPopup
+          name={infoName}
+          description={infoDesc}
+          show={modalShow}
+          onHide={() => setModalShow(false)} 
+        />
+        </div>
       </div>
-    </div>
-  );
+    );
   }
   
   export default Map
