@@ -147,54 +147,55 @@ const markers1 = [
     const [modalShow, setModalShow] = React.useState(false);
     var [infoName, setInfoName] = useState("");
     var [infoDesc, setInfoDesc] = useState("");
+    const [markers, setMarkers] = useState(null);
     const navigate = useNavigate();
   
+    // Fetches Database and maps locations from database to markers
     const fetchArray = async () => {
       const {data} = await axios.get("http://localhost:5000/cool");
       localStorage.setItem("markers", JSON.stringify(data));
+      setMarkers(
+        JSON.parse(localStorage.getItem("markers")).map(({name, coordinates, description}) =>(
+          <Marker 
+            onClick={
+              function(e){
+                setInfoName(name);
+                setInfoDesc(description);
+                setModalShow(true);
+              }
+            } 
+            key={name} coordinates={coordinates.split(",").map(Number)}>
+            <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
+            <text className="markers" y={-20}>
+              {""}
+            </text>
+          </Marker>
+        ))
+      );
     }
 
     // Hook for on mount (loading of page)
     useEffect(() => {
       fetchArray();
     }, [])
-  
-    // Maps locations from database to markers
-    const markersList = JSON.parse(localStorage.getItem("markers")).map(({name, coordinates, description}) =>(
-      <Marker 
-        onClick={
-          function(e){
-            setInfoName(name);
-            setInfoDesc(description);
-            setModalShow(true);
-          }
-        } 
-        key={name} coordinates={coordinates.split(",").map(Number)}>
-        <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
-        <text className="markers" y={-20}>
-          {""}
-        </text>
-      </Marker>
-    ))
 
     return (
       <div className="mappage">
-        <img src={map} alt="campus map"></img>
-        <div className="campusmap">
-        <ComposableMap projection="geoMercator" projectionConfig={{ scale: 130 }} width={793} height={1269}> 
-          {markersList}
-        </ComposableMap>
-        <AspireNavbar />
-        <HelpButton />
-        <AspireInfoPopup
-          name={infoName}
-          description={infoDesc}
-          show={modalShow}
-          onHide={() => setModalShow(false)} 
-        />
-        </div>
+      <img src={map} alt="campus map"></img>
+      <div className="campusmap">
+      <ComposableMap projection="geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}> 
+        {markers}
+      </ComposableMap>
+      <AspireNavbar />
+      <HelpButton />
+      <AspireInfoPopup
+        name={infoName}
+        description={infoDesc}
+        show={modalShow}
+        onHide={() => setModalShow(false)} 
+      />
       </div>
+    </div>
     );
   }
-  
   export default Map
