@@ -117,7 +117,7 @@ then it will start counting again from array index zero.
 var offset = 4;
 var noOfBuildings = 10;
 
-//Filters out offline buildings
+// Filters out offline buildings
 
 for (var i = 0; i < markersDB.length; i++){
   if (markersDB[i].online){
@@ -140,18 +140,33 @@ function Home() {
   // States of markers
   var [markers, setMarkers] = useState(null);
 
+  // Fetching database and setting to markers
   const fetchArray = async () => {
     const {data} = await axios.get("http://localhost:5000/tasks");
     console.log(data);
-    localStorage.setItem("racemarkers", JSON.stringify(data));
+    // localStorage.setItem("racemarkers", JSON.stringify(data));
 
+    // hardcoded rn, but will be changed depending on team number
+    let index = 2;
+    let buffer = data
+
+    console.log(buffer.length);
+    for (var i = 1; i <= buffer.length; i++){
+      if (index == buffer.length){
+        index = 0;
+      }
+      buffer[index].number = i;
+      index++;
+    }
+    localStorage.setItem("racemarkers", JSON.stringify(buffer));
+
+    // removed answer and setRaceAnswer
     setMarkers(
-      JSON.parse(localStorage.getItem("racemarkers")).map(({name, coordinates, task, number, colour, answer}) =>(
+      JSON.parse(localStorage.getItem("racemarkers")).map(({name, coordinates, description, number, colour}) =>(
         <Marker 
           onClick={function(e){
             setRaceName(name);
-            setRaceTask(task);
-            setRaceAnswer(answer);
+            setRaceTask(description);
             setModalShow(true);
             }
           }
@@ -170,13 +185,15 @@ function Home() {
 
   // Hook for on mount (loading of page)
   useEffect(() => {
+    console.log("useEffect hook called");
     fetchArray();
   }, [])
 
-  function updateMarkerAnswer(id, newAnswer){
+  // removed "newAnswer" in parameters and ", answer: newAnswer" in return
+  function updateMarkerAnswer(id){
     var updatedMarkers = markers.map((marker) => {
       if (marker.name == id){
-        return {...marker, colour: "#2D932B", answer: newAnswer}
+        return {...marker, colour: "#2D932B"}
       }
       return marker;
     });
