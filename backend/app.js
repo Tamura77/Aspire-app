@@ -11,7 +11,7 @@ app.use(function(req, res, next) {
     next();
   });
 
-app.get("/cool", function(req, res) {
+app.get("/places", function(req, res) {
   const data = [];
   // open database
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -39,6 +39,36 @@ app.get("/cool", function(req, res) {
     console.log('Close the database connection.');
   });
 })
+
+app.get("/tasks", function(req, res) {
+  const data = [];
+  // open database
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the database.');
+  });
+  var params = [];
+  db.serialize(() => {
+    db.all(`SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id;`, params, (err, rows) => {
+      if (err) {
+        console.error(err.message);
+      }
+      console.log(rows);
+      res.json(rows);
+    });
+  });
+  
+  // close the database connection
+  db.close((err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Close the database connection.');
+  });
+})
+
 
 app.get("/", function(req, res) {
   res.send();
