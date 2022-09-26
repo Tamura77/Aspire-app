@@ -152,7 +152,7 @@ const markers1 = [
   
     // Fetches Database and maps locations from database to markers
     const fetchArray = async () => {
-      const {data} = await axios.get("http://localhost:5000/cool");
+      const {data} = await axios.get("http://localhost:5000/places");
       localStorage.setItem("markers", JSON.stringify(data));
       setMarkers(
         JSON.parse(localStorage.getItem("markers")).map(({name, coordinates, description}) =>(

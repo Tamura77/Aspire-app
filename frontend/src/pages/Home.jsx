@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import {useQuery} from "@tanstack/react-query";
 import { fetchExample } from "../requests/example";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
+import axios from 'axios';
 
 import AspireNavbar from "../components/navbar";
 import HelpButton from "../components/helpButton";
@@ -126,7 +127,6 @@ for (var i = 0; i < markersDB.length; i++){
   }
 }
 
-
 function Home() {
   const {data, error, isError, isLoading} = useQuery(["example"], fetchExample);
   const navigate = useNavigate();
@@ -137,8 +137,41 @@ function Home() {
   var [raceTask, setRaceTask] = useState("");
   var [raceAnswer, setRaceAnswer] = useState("");
 
-    // States of markers
-  var [markers, setMarkers] = useState(markersBuffer);
+  // States of markers
+  var [markers, setMarkers] = useState(null);
+
+  const fetchArray = async () => {
+    const {data} = await axios.get("http://localhost:5000/tasks");
+    console.log(data);
+    localStorage.setItem("racemarkers", JSON.stringify(data));
+
+    setMarkers(
+      JSON.parse(localStorage.getItem("racemarkers")).map(({name, coordinates, task, number, colour, answer}) =>(
+        <Marker 
+          onClick={function(e){
+            setRaceName(name);
+            setRaceTask(task);
+            setRaceAnswer(answer);
+            setModalShow(true);
+            }
+          }
+          key={name}
+          coordinates={coordinates.split(",").map(Number)}
+          updateMarkerColour = {updateMarkerAnswer}
+          >
+            <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
+            <text className="markers" y={5}>
+              {number}
+            </text>
+        </Marker>
+      ))
+    );
+  }
+
+  // Hook for on mount (loading of page)
+  useEffect(() => {
+    fetchArray();
+  }, [])
 
   function updateMarkerAnswer(id, newAnswer){
     var updatedMarkers = markers.map((marker) => {
@@ -149,34 +182,13 @@ function Home() {
     });
     setMarkers(updatedMarkers);
   }
-
-  const markersList = markers.map(({name, coordinates, task, number, colour, answer}) =>(
-    <Marker 
-      onClick={function(e){
-        setRaceName(name);
-        setRaceTask(task);
-        setRaceAnswer(answer);
-        setModalShow(true);
-        }
-      }
-      key={name}
-      coordinates={coordinates}
-      updateMarkerColour = {updateMarkerAnswer}
-      >
-        <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
-        <text className="markers" y={5}>
-          {number}
-        </text>
-    </Marker>
-  ))
     
-    return (
-
+  return (
     <div className="mappage">
       <img src={map} alt="campus map"></img>
       <div className="campusmap" key = {Math.random() + Date.now()}>
       <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269} >
-          {markersList}
+          {markers}
       </ComposableMap>
       <AspireNavbar />
       <HelpButton />
@@ -192,6 +204,5 @@ function Home() {
     </div>
   );
 }
-    
 
 export default Home;
