@@ -66,6 +66,7 @@ function Race() {
       }
       return marker;
     });
+    localStorage.setItem("racemarkers", JSON.stringify(updatedMarkers));
     setMarkers(updatedMarkers);
   }
     
