@@ -5,24 +5,36 @@ import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import Nav from "react-bootstrap/Nav";
 
 import "./styling/Landing.css";
+import { Button } from 'bootstrap';
 
 function Landing() {
 
-    // raceCode = raceID + teamID
-    // e.g., 1AB = race 1 team 1
-    //       3CD = race 3 team 2
     const [raceCode, setRaceCode] = useState("");
     const [disable, setDisable] = useState(true);
-    
-    const fetchInfoMarkers = async () => {
-        const {data} = await axios.get("http://localhost:5000/places");
-        localStorage.setItem("infomarkers1", JSON.stringify(data));
+    const [correct, setCorrect] = useState("");
+    const navigate = useNavigate();
+
+    // Change to map page on submit
+    const routeChange = () =>{ 
+        let path = `/Map`; 
+        navigate(path);
     }
+    
+    const fetchInfo = async () => {
+        const info = await axios.get("http://localhost:5000/places");
+        localStorage.setItem("infomarkers", JSON.stringify(info.data));
+    }
+    
+    //
     const fetchRace = async () => {
+        // raceCode = raceID + teamID
+        // e.g., 1ab = race 1 team 1
+        //       3cd = race 3 team 2
         let raceID = raceCode.substring(0,raceCode.length-2);
-        let teamID = raceCode.substringsubstring(raceCode.length-2, raceCode.length);
+        let teamID = raceCode.substring(raceCode.length-2, raceCode.length);
 
         // set team number
         console.log(teamID);
@@ -31,14 +43,22 @@ function Landing() {
         let teamNo = (num1 + num2 - 1)/4;
         console.log(teamNo);
 
+                                        ////// NEED TO IMPLEMENT //////
         // fetch Race based on raceID
         // need to query database here
-        const {data} = await axios.get("http://localhost:5000/tasks");
+        const race = await axios.get("http://localhost:5000/tasks");
+        console.log(race);
 
-        // check if there are errors 
+        // Check if there are errors 
+        if (race.status !== 200){
+            console.log("bad raceID");
+            setCorrect("Incorrect Race Code")
+            return null;
+        }
+        setCorrect("Correct")
 
-        // Set order of race
-        let buffer = data;
+        // Set order of race based on teamID
+        let buffer = race.data;
         for (var i = 1; i <= buffer.length; i++){
             if (teamNo == buffer.length){
                 teamNo = 0;
@@ -47,8 +67,7 @@ function Landing() {
             teamNo++;
         }
 
-
-        localStorage.setItem("racemarkers1", JSON.stringify(data));
+        localStorage.setItem("racemarkers", JSON.stringify(buffer));
 
         setDisable(false);
 
@@ -56,7 +75,7 @@ function Landing() {
 
     useEffect(() => {
         console.log("useEffect hook called");
-        fetchInfoMarkers();
+        fetchInfo();
     }, [])
 
     
@@ -74,13 +93,13 @@ function Landing() {
                             className="form-control mt-1"
                             placeholder="Enter race code"
                         />
-                        <p>{raceCode}</p>
                     </div>
                     <div className="d-grid gap-2 mt-3">
+                        {correct}
                         <button type="button" className="btn btn-primary" onClick={fetchRace}>
                             Check
                         </button>
-                        <button type="submit" className="btn btn-primary" disabled={disable} href="/Map">
+                        <button type="button" className="btn btn-primary" disabled={disable} onClick={routeChange}>
                             Submit
                         </button>
                     </div>

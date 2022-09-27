@@ -138,7 +138,7 @@ function Home() {
   var [raceAnswer, setRaceAnswer] = useState("");
 
   // States of markers
-  var [markers, setMarkers] = useState(null);
+  var [markers, setMarkers] = useState(JSON.parse(localStorage.getItem("racemarkers")));
 
   // Fetching database and setting to markers
   const fetchArray = async () => {
