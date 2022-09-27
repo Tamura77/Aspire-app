@@ -19,7 +19,7 @@ function Landing() {
 
     // Change to map page on submit
     const routeChange = () =>{ 
-        let path = `/Map`; 
+        let path = `/Race`; 
         navigate(path);
     }
     
