@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 //Pages 
+import Landing from './pages/Landing'
 import Home from './pages/Home';
 import ExternalLinks from './pages/ExternalLinks';
 import Map from './pages/Map';
@@ -15,7 +16,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Landing/>} />
+        <Route path="Race" element={<Home/>} />
         <Route path="ExternalLinks" element={<ExternalLinks/>} />
         <Route path="Map" element={<Map/>}/>
         <Route path="Help" element={<Help/>}/>

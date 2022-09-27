@@ -16,7 +16,7 @@ function AspireNavbar() {
         <div className="navbarPadding">
         <Navbar className="fixed-bottom navbarDefault" expand="sm" bg="light" variant="light">
             <Nav className="m-auto">
-                <Nav.Link href="/">
+                <Nav.Link href="/Race">
                     <TbDeviceGamepad2 className="iconDefault" />
                 </Nav.Link>
                 <Nav.Link href="/Map">
