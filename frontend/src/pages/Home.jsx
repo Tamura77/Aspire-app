@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useQuery} from "@tanstack/react-query";
-import { fetchExample } from "../requests/example";
+import { getMapData } from "../requests/example";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 
@@ -115,7 +115,7 @@ for (var i = 0; i < markersDB.length; i++){
 
 
 function Home() {
-  const {data, error, isError, isLoading} = useQuery(["example"], fetchExample);
+  const {data, error, isError, isLoading} = useQuery(["example"], getMapData);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = React.useState(false);
   

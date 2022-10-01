@@ -10,6 +10,7 @@ import ExternalLinks from './pages/ExternalLinks';
 import Map from './pages/Map';
 import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="Map" element={<Map/>}/>
         <Route path="Help" element={<Help/>}/>
         <Route path="*" element={<PageNotFound />} />
+        <Route path="Admin" element={<Admin />} />
       </Routes>
     </div>
   );
