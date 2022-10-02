@@ -18,7 +18,7 @@ app.get("/places", function(req, res) {
     if (err) {
       console.error(err.message);
     }
-    console.log('Connected to the database.');
+    // console.log('Connected to the database.');
   });
   var params = [];
   db.serialize(() => {
@@ -26,7 +26,7 @@ app.get("/places", function(req, res) {
       if (err) {
         console.error(err.message);
       }
-      console.log(rows);
+      // console.log(rows);
       res.json(rows);
     });
   });
@@ -36,11 +36,11 @@ app.get("/places", function(req, res) {
     if (err) {
       return console.error(err.message);
     }
-    console.log('Close the database connection.');
+    // console.log('Close the database connection.');
   });
 })
 
-app.get("/tasks", function(req, res) {
+app.get("/races/:id", function(req, res) {
   const data = [];
   // open database
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -49,9 +49,12 @@ app.get("/tasks", function(req, res) {
     }
     console.log('Connected to the database.');
   });
+  var raceid = req.params.id;
+  console.log(raceid);
   var params = [];
   db.serialize(() => {
-    db.all(`SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id;`, params, (err, rows) => {
+    // db.all(`SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id;`, params, (err, rows) => {
+    db.all('SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id JOIN races ON races.task_id = tasks.id WHERE races.race_id =' + raceid + ';', params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }

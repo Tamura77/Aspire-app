@@ -46,7 +46,7 @@ function Landing() {
                                         ////// NEED TO IMPLEMENT //////
         // fetch Race based on raceID
         // need to query database here
-        const race = await axios.get("http://localhost:5000/tasks");
+        const race = await axios.get("http://localhost:5000/races/" + raceID); 
         console.log(race);
 
         // Check if there are errors 
