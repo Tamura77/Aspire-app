@@ -1,5 +1,6 @@
 .admin-div {
     display: flex;
+    background-color: black;
 }
 
 .table-display {
@@ -9,4 +10,11 @@
 
 .database-table {
     width: 100%;
+    margin: 0px 0px 0px 5px;
+    background-color: white;
+}
+/* This doesn't seem to be working as submit button isn't actually turning red (the red was just to test) */
+.submit-button {
+    border: 1px solid #ced4da;
+    background-color: red;
 }
