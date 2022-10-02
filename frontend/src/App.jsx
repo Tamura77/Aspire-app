@@ -11,6 +11,8 @@ import ExternalLinks from './pages/ExternalLinks';
 import Map from './pages/Map';
 import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
+import Adminpage from './pages/Adminpage';
+import Tasks from './pages/Tasks';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="ExternalLinks" element={<ExternalLinks/>} />
         <Route path="Map" element={<Map/>}/>
         <Route path="Help" element={<Help/>}/>
+        <Route path="Adminpage" element={<Adminpage/>}/>
+        <Route path="Tasks" element={<Tasks/>}/>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
