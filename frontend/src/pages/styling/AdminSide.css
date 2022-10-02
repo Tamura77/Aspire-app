@@ -1,0 +1,12 @@
+.admin-div {
+    display: flex;
+}
+
+.table-display {
+    display: flex;
+    width: 100%;
+}
+
+.database-table {
+    width: 100%;
+}
