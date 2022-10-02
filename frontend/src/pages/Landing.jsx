@@ -13,6 +13,7 @@ import { Button } from 'bootstrap';
 function Landing() {
 
     const [raceCode, setRaceCode] = useState("");
+    const [teamName, setTeamName] = useState("");
     const [disable, setDisable] = useState(true);
     const [correct, setCorrect] = useState("");
     const navigate = useNavigate();
@@ -26,6 +27,11 @@ function Landing() {
     const fetchInfo = async () => {
         const info = await axios.get("http://localhost:5000/places");
         localStorage.setItem("infomarkers", JSON.stringify(info.data));
+    }
+
+    function addTeam() {
+        console.log(teamName);
+        axios.post("http://localhost:5000/admin/teams/", {race_id: teamName, task_id: 2}).then(function(response){console.log(response);})
     }
     
     //
@@ -93,11 +99,22 @@ function Landing() {
                             className="form-control mt-1"
                             placeholder="Enter race code"
                         />
+                        <label>Team Name</label>
+                        <input
+                        type="text"
+                            value={teamName}
+                            onChange={(e) => setTeamName(e.target.value)}
+                            className="form-control mt-1"
+                            placeholder="Enter team Name"
+                        />
                     </div>
                     <div className="d-grid gap-2 mt-3">
                         {correct}
                         <button type="button" className="btn btn-primary" onClick={fetchRace}>
                             Check
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={addTeam}>
+                            Add to Teams
                         </button>
                         <button type="button" className="btn btn-primary" disabled={disable} onClick={routeChange}>
                             Submit

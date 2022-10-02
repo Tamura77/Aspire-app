@@ -3,6 +3,10 @@ const app = express();
 const cors = require("cors")
 app.use(cors())
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 const sqlite3 = require('sqlite3').verbose();
 
 app.use(function(req, res, next) {
@@ -61,7 +65,7 @@ app.get("/races/:id", function(req, res) {
       res.json(rows);
     });
   });
-  
+
   // close the database connection
   db.close((err) => {
     if (err) {
@@ -82,3 +86,28 @@ if(port == null || port == "") {
 app.listen(port, function() {
  console.log("Server started successfully");
 });
+
+
+app.post("/admin/teams/", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the database.');
+  });
+  console.log(req.body);
+  var sql = 'INSERT INTO races (task_id, race_id) VALUES (?,?)'
+  data = {
+    task_id: parseInt(req.body.task_id),
+    race_id: parseInt(req.body.race_id)
+  }
+  params = [data.task_id, data.race_id]
+  db.run(sql, params, function(err, result) {
+      if (err){
+          console.log('hi');
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      console.log("success");
+      })
+    })
