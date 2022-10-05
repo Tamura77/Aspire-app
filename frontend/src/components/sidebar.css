@@ -1,0 +1,26 @@
+.Sidebar{
+    height: 100%;
+    width: 250px;
+    background-color: rgb(92, 88, 77);
+}
+
+body{
+    margin:0%;
+    padding: 0;
+}
+
+.SidebarList{
+    height: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.SidebarList .row{
+    width: 100%;
+    height: 50px; 
+    border: 1px solid rgb(172, 33, 33);
+    list-style-type: none; 
+    margin: 0%;
+    display: flex;
+    flex-direction: row;
+}
