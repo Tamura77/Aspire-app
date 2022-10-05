@@ -18,3 +18,14 @@
     border: 1px solid #ced4da;
     background-color: red;
 }
+
+/* Locations support */
+.mapsvg{
+    height:97.67% ;
+    width:100%;
+}
+
+#marker{
+    color: red;
+    font-size:xx-large;
+}
