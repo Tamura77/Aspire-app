@@ -111,3 +111,60 @@ app.post("/admin/teams/", (req, res, next) => {
       console.log("success");
       })
     })
+
+app.patch("/admin/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the database.');
+  });
+  data = {
+      title: req.body.title,
+      url: req.body.url
+  }
+  console.log(req.params.id)
+  params = [data.title, data.url, req.params.id]
+  db.run(
+      `UPDATE links set 
+          title = ?, 
+          url = ?
+          WHERE id = ?`,
+      params,
+      function (err, result) {
+        console.log(data.title)
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+app.get("/links", function(req, res) {
+  const data = [];
+  // open database
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    // console.log('Connected to the database.');
+  });
+  var params = [];
+  db.serialize(() => {
+    db.all(`SELECT * FROM links`, params, (err, rows) => {
+      if (err) {
+        console.error(err.message);
+      }
+      // console.log(rows);
+      res.json(rows);
+    });
+  });
+  
+  // close the database connection
+  db.close((err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    // console.log('Close the database connection.');
+  });
+})
