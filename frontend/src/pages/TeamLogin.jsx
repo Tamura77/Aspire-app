@@ -7,10 +7,10 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Nav from "react-bootstrap/Nav";
 
-import "./styling/Landing.css";
+import "./styling/TeamLogin.css";
 import { Button } from 'bootstrap';
 
-function Landing() {
+function TeamLogin() {
 
     const [raceCode, setRaceCode] = useState("");
     const [disable, setDisable] = useState(true);
@@ -80,10 +80,10 @@ function Landing() {
 
     
     return(
-        <div className="landingDiv">
-             <Form className="landingForm">
-                <div className="landingFormContent">
-                    <h1 className="landingFormTitle">Team Log In</h1>
+        <div className="TeamLoginDiv">
+             <Form className="TeamLoginForm">
+                <div className="TeamLoginFormContent">
+                    <h1 className="TeamLoginFormTitle">Team Log In</h1>
                     <div className="form-group mt-3">
                         <label>Race Code</label>
                         <input
@@ -109,4 +109,4 @@ function Landing() {
     );
 }
 
-export default Landing;
+export default TeamLogin;
