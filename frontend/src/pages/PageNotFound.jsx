@@ -10,6 +10,7 @@ function PageNotFound () {
   const [link, setLink] = useState("");
   const [linkID, setID] = useState("");
 
+
   const fetchLinks = async () => {
     const links = await axios.get("http://localhost:5000/links");
     tableMaker(links.data);
@@ -18,6 +19,11 @@ function PageNotFound () {
   function changeLink() {
     console.log(link)
     axios.patch("http://localhost:5000/admin/edit/" + linkID, {title: name, url: link}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function deleteLink() {
+    axios.delete("http://localhost:5000/admin/delete/" + linkID, {id: linkID, title: name, url: link}).then(function(response){console.log(response);})
     location.reload();
   }
 
@@ -95,6 +101,7 @@ function tableMaker(links) {
               placeholder="Enter New Link"
           />
           <button type="button" className="btn btn-primary" onClick={changeLink}>Submit</button>
+          <button type="button" className="btn btn-primary" onClick={deleteLink}>Delete</button>
         </div>
         <div id="table"></div>
         

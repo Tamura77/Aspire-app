@@ -140,6 +140,24 @@ app.patch("/admin/edit/:id", (req, res, next) => {
   });
 })
 
+app.delete("/admin/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the database.');
+  });
+  db.run(
+      'DELETE FROM links WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
 app.get("/links", function(req, res) {
   const data = [];
   // open database
@@ -168,3 +186,4 @@ app.get("/links", function(req, res) {
     // console.log('Close the database connection.');
   });
 })
+
