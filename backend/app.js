@@ -77,21 +77,20 @@ app.listen(port, function() {
  console.log("Server started successfully");
 });
 
-// POST ADMIN FOR TEAMS (CHANGE LATER)
+// POST ADMIN FOR Tasks (CHANGE LATER)
 
-app.post("/admin/teams/", (req, res, next) => {
+app.post("/admin/tasks/post", (req, res, next) => {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error(err.message);
     }
   });
   console.log(req.body);
-  var sql = 'INSERT INTO races (task_id, race_id) VALUES (?,?)'
-  data = {
-    task_id: parseInt(req.body.task_id),
-    race_id: parseInt(req.body.race_id)
+  if (req.body.location == '' || req.body.description == '') {
+    return;
   }
-  params = [data.task_id, data.race_id]
+  var sql = 'INSERT INTO tasks (place_id, description) VALUES (?,?)'
+  params = [req.body.location, req.body.description]
   db.run(sql, params, function(err, result) {
       if (err){
           res.status(400).json({"error": err.message})
@@ -269,5 +268,51 @@ app.get("/table/taskdescs", function(req, res) {
     if (err) {
       return console.error(err.message);
     }
+  });
+})
+
+app.patch("/admin/tasks/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE tasks set place_id = ?, description = ? WHERE ID = ?'
+  params = [req.body.location, req.body.description, req.params.id]
+  if (req.body.location == "" && req.body.description != "") {
+    var sql = 'UPDATE tasks set description = ? WHERE ID = ?'
+    params = [req.body.description, req.params.id]
+  } else if (req.body.description == "" && req.body.location != "") {
+    var sql = 'UPDATE tasks set place_id = ? WHERE ID = ?'
+    params = [req.body.location, req.params.id]
+  } else if (req.body.location == "" && req.body.description == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+app.delete("/admin/tasks/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM tasks WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
   });
 })

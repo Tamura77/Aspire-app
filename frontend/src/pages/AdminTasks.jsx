@@ -49,9 +49,31 @@ import "../components/sidebar.css"
 //Below is what I currently have for the other pages - Sofia
 
 function AdminTasks () {
+  const [place, setPlace] = useState("");
+  const [desc, setDesc] = useState("");
+  const [task, setTask] = useState("");
+  const [taskID, setID] = useState("");
+  
+
+  function changeTask() {
+    console.log(task)
+    axios.patch("http://localhost:5000/admin/tasks/edit/" + taskID, {location: place, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function postTask() {
+    axios.post("http://localhost:5000/admin/tasks/post", {location: place, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function deleteTask() {
+    axios.delete("http://localhost:5000/admin/tasks/delete/" + taskID, {id: taskID}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
   const fetchData = async () => {
-    const places = await axios.get("http://localhost:5000/table/placenames");
-    tableMaker(places.data, "places");
+    const tasks = await axios.get("http://localhost:5000/table/tasks");
+    tableMaker(tasks.data, "tasks");
 }
   function tableMaker(jsonData, divID) {
     let col = [];
@@ -102,26 +124,32 @@ useEffect(() => {
         <Sidebar/>
         <div className="table-display">
             <div className="database-table">
-                <h1>Task Editor</h1>
+                <h1>Task Editor:</h1>
                 {/* THE ACTION SHOULD BE BINDED WITH THE SUBMIT TO THE DATABASE */}
-                <form action="">
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter Name"></input>
+                  <div className="form-group">
+                    <label>Task ID:</label>
+                    <input type="text" value={taskID} onChange={(e) => setID(e.target.value)}
+                      placeholder="Enter Task ID" className="form-control"></input>
                   </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="number" class="form-control" id="location" placeholder="Select Location"></input>
+                  
+                  <div className="form-group">
+                    <label>Location:</label>
+                    <input type="number" className="form-control" id="location" placeholder="Select Location" value={place}
+                      onChange={(e) => setPlace(e.target.value)}></input>
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" placeholder="Enter Description"></input>
+                  
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <input type="text" className="form-control" id="description" placeholder="Enter Description" value={desc} 
+                    onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
-                  <button className="submit-button" type="submit" class="btn btn-default">Submit</button>
-                </form>
+
+                  <button type="button" className="btn btn-primary" onClick={changeTask}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={deleteTask}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={postTask}>Post</button>
             </div>
-            <div className="database-table" id="places">
-                <h1>Places</h1>
+            <div className="database-table" id="tasks">
+                <h1>Tasks</h1>
             </div>
         </div>
     </div>
