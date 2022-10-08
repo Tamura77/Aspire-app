@@ -8,6 +8,7 @@ import axios from 'axios';
 import HelpButton from "../components/helpButton";
 import AspireNavbar from "../components/navbar";
 import AspireInfoPopup from "../components/infoPopup";
+import HelpModal from "../components/helpModal";
 import ReactTooltip from "react-tooltip";
 import "./styling/Map.css";
 
@@ -69,8 +70,8 @@ function Map() {
     <ComposableMap projection="geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}> 
       {markers}
     </ComposableMap>
-    <AspireNavbar />
     <HelpButton />
+    <AspireNavbar />
     <AspireInfoPopup
       name={infoName}
       description={infoDesc}
