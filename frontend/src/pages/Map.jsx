@@ -8,7 +8,6 @@ import axios from 'axios';
 import HelpButton from "../components/helpButton";
 import AspireNavbar from "../components/navbar";
 import AspireInfoPopup from "../components/infoPopup";
-import HelpModal from "../components/helpModal";
 import ReactTooltip from "react-tooltip";
 import "./styling/Map.css";
 
