@@ -14,6 +14,7 @@ function AdminTables () {
   const[placesTable, setPlacesTable] = useState(null);
   const[tasksTable, setTasksTable] = useState(null);
   const[racesTable, setRacesTable] = useState(null);
+  const[longDesc, setLongDesc] = useState(null);
 
   const fetchData = async () => {
       const races = await axios.get("http://localhost:5000/table/races");
@@ -40,7 +41,11 @@ function AdminTables () {
             <tr key={id}>
               <td>{id}</td>
               <td>{name}</td>
-              <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
+              <td onClick={
+                  setLongDesc(description)
+                }>
+                {description.length > 20 ? `${description.substring(0, 20)}...` : description}
+              </td>
               <td>{coordinates}</td>
             </tr>
             ))}

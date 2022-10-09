@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router , Link } from "react-router-dom";
 import axios from "axios"
+import Table from 'react-bootstrap/Table';
 
 //icons
 import {BsFillArrowRightSquareFill} from "react-icons/bs"
@@ -8,6 +9,7 @@ import {BsFillArrowLeftSquareFill} from "react-icons/bs"
 
 //Components
 import Sidebar from "../components/sidebar";
+import AspireSubmitPopup from "../components/submitPopup";
 
 //Styling
 import "./styling/Tasks.css"
@@ -53,6 +55,9 @@ function AdminTasks () {
   const [desc, setDesc] = useState("");
   const [task, setTask] = useState("");
   const [taskID, setID] = useState("");
+  const[tasksTable, setTasksTable] = useState(null);
+  const [request, setRequest] = useState("");
+  const [modalShow, setModalShow] = useState(false);
   
 
   function changeTask() {
@@ -71,11 +76,43 @@ function AdminTasks () {
     location.reload();
   }
 
+  function submitRequest() {
+    if (request == "changeTask") {
+      changeTask();
+    }
+    else if (request == "deleteTask") {
+      deleteTask();
+    }
+    else if (request == "postTask"){
+      postTask();
+    }
+  }
+
   const fetchData = async () => {
     const tasks = await axios.get("http://localhost:5000/table/tasks");
     const places = await axios.get("http://localhost:5000/table/places")
-    tableMaker(tasks.data, "tasks");
     dropDownMaker(places.data, "place-select");
+
+    setTasksTable(
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Task ID:</th>
+            <th>Task Location:</th>
+            <th>Task Description:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.data.map(({id, name, description}) =>(
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{name}</td>
+            <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
+          </tr>
+          ))}
+        </tbody>
+      </Table>
+    );
 }
 
 function dropDownMaker(jsonData, divID) {
@@ -87,44 +124,7 @@ function dropDownMaker(jsonData, divID) {
   }
 }
 
-  function tableMaker(jsonData, divID) {
-    let col = [];
-    for (let i = 0; i < jsonData.length; i++) {
-      for (let key in jsonData[i]) {
-        if (col.indexOf(key) === -1) {
-          col.push(key);
-        }
-      }
-    }
   
-    // Create table
-    const table = document.createElement("table");
-  
-    // Create table header
-    let tr = table.insertRow(-1);
-  
-    for (let i = 0; i < col.length; i++) {
-      let th = document.createElement("th");
-      th.innerHTML = col[i];
-      tr.appendChild(th);
-    }
-  
-    // Add JSON data to table rows
-    for (let i = 0; i < jsonData.length; i++) {
-  
-      tr = table.insertRow(-1);
-  
-      for (let j = 0; j < col.length; j++) {
-        let tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = jsonData[i][col[j]];
-      }
-    }
-
-    // Append table to div
-    const divTableData = document.getElementById(divID);
-    divTableData.innerHTML = "";
-    divTableData.appendChild(table);
-}
 
 const dataFetchedRef = useRef(false);
 
@@ -142,7 +142,6 @@ useEffect(() => {
         <div className="table-display">
             <div className="database-table">
                 <h1>Task Editor:</h1>
-                {/* THE ACTION SHOULD BE BINDED WITH THE SUBMIT TO THE DATABASE */}
                   <div className="form-group">
                     <label>Task ID:</label>
                     <input type="text" value={taskID} onChange={(e) => setID(e.target.value)}
@@ -162,14 +161,30 @@ useEffect(() => {
                     onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary" onClick={changeTask}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={deleteTask}>Delete</button>
-                  <button type="button" className="btn btn-primary" onClick={postTask}>Post</button>
+                  <button type="button" className="btn btn-primary" onClick={
+                    function(e){
+                      setRequest("changeTask");
+                      setModalShow(true)
+                    }}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                      setRequest("deleteTask");
+                      setModalShow(true)
+                    }}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                      setRequest("postTask");
+                      setModalShow(true)
+                    }}>Post</button>
             </div>
             <div className="database-table" id="tasks">
                 <h1>Tasks</h1>
+                {tasksTable}
             </div>
         </div>
+        <AspireSubmitPopup
+          submitRequest = {submitRequest}
+          show = {modalShow}
+          onHide={() => setModalShow(false)}
+        />
     </div>
     </>
   );

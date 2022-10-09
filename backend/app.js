@@ -156,7 +156,7 @@ app.get("/table/races", function(req, res) {
   });
   var params = [];
   db.serialize(() => {
-    db.all(`SELECT * FROM races`, params, (err, rows) => {
+    db.all(`SELECT races.id, races.task_id, races.race_name, tasks.description FROM races JOIN tasks ON races.task_id = tasks.id`, params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
@@ -206,7 +206,7 @@ app.get("/table/tasks", function(req, res) {
   });
   var params = [];
   db.serialize(() => {
-    db.all(`SELECT id, place_id, description FROM tasks`, params, (err, rows) => {
+    db.all(`SELECT tasks.id, place_id, tasks.description, places.name FROM tasks JOIN places ON places.id = tasks.place_id`, params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
@@ -321,3 +321,76 @@ app.delete("/admin/tasks/delete/:id", (req, res, next) => {
           }
   });
 })
+
+
+// Update for Race table in admin editor
+
+app.patch("/admin/races/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE races set task_id = ?, race_name = ? WHERE ID = ?'
+  params = [req.body.task_id, req.body.race_name, req.params.id]
+  if (req.body.task_id == "" && req.body.race_name != "") {
+    var sql = 'UPDATE races set race_name = ? WHERE ID = ?'
+    params = [req.body.race_name, req.params.id]
+  } else if (req.body.race_name == "" && req.body.task_id != "") {
+    var sql = 'UPDATE races set task_id = ? WHERE ID = ?'
+    params = [req.body.task_id, req.params.id]
+  } else if (req.body.task_id == "" && req.body.race_name == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+// Delete for Race table in Admin EDITOR
+
+app.delete("/admin/races/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM races WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+// POST FOR RACE TABLE
+
+app.post("/admin/races/post", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  console.log(req.body);
+  if (req.body.task_id == '' || req.body.race_name == '') {
+    return;
+  }
+  var sql = 'INSERT INTO races (task_id, race_name) VALUES (?,?)'
+  params = [req.body.task_id, req.body.race_name]
+  db.run(sql, params, function(err, result) {
+      if (err){
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      })
+    })
