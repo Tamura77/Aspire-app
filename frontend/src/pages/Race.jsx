@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import {useQuery} from "@tanstack/react-query";
-import { fetchExample } from "../requests/example";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import axios from 'axios';
@@ -24,7 +23,6 @@ import ReactTooltip from "react-tooltip";
 
 
 function Race() {
-  const {data, error, isError, isLoading} = useQuery(["example"], fetchExample);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = React.useState(false);
   

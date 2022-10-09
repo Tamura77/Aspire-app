@@ -271,6 +271,9 @@ app.get("/table/taskdescs", function(req, res) {
   });
 })
 
+
+//PATCH FOR ADMIN TASK EDITOR
+
 app.patch("/admin/tasks/edit/:id", (req, res, next) => {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -299,6 +302,8 @@ app.patch("/admin/tasks/edit/:id", (req, res, next) => {
           }
   });
 })
+
+// DELETE FOR ADMIN TASK EDITOR
 
 app.delete("/admin/tasks/delete/:id", (req, res, next) => {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router , Link } from "react-router-dom";
 import axios from "axios"
 
@@ -73,8 +73,20 @@ function AdminTasks () {
 
   const fetchData = async () => {
     const tasks = await axios.get("http://localhost:5000/table/tasks");
+    const places = await axios.get("http://localhost:5000/table/places")
     tableMaker(tasks.data, "tasks");
+    dropDownMaker(places.data, "place-select");
 }
+
+function dropDownMaker(jsonData, divID) {
+  for (let i = 0; i < jsonData.length; i++) {
+    var option = document.createElement("option");
+    option.value = jsonData[i].id;
+    option.innerHTML = jsonData[i].name;
+    document.getElementById(divID).appendChild(option);
+  }
+}
+
   function tableMaker(jsonData, divID) {
     let col = [];
     for (let i = 0; i < jsonData.length; i++) {
@@ -114,10 +126,15 @@ function AdminTasks () {
     divTableData.appendChild(table);
 }
 
+const dataFetchedRef = useRef(false);
+
 useEffect(() => {
     console.log("useEffect hook called");
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
     fetchData();
 }, [])
+
   return (
     <>
     <div className="admin-div">
@@ -134,8 +151,9 @@ useEffect(() => {
                   
                   <div className="form-group">
                     <label>Location:</label>
-                    <input type="number" className="form-control" id="location" placeholder="Select Location" value={place}
-                      onChange={(e) => setPlace(e.target.value)}></input>
+                    <select id="place-select" value={place} onChange={(e) => setPlace(e.target.value)}>
+                      <option value=""></option>
+                    </select>
                   </div>
                   
                   <div className="form-group">
