@@ -20,7 +20,7 @@ Marker,
 Annotation,
 ZoomableGroup,
 } from "react-simple-maps";
-  
+
 //Main map
 
 function Map() {
