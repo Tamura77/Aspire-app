@@ -1,13 +1,9 @@
 import React, { useState, useEffect} from 'react';
-import {useQuery} from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import {BrowserRouter as Router, Link} from "react-router-dom";
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-import Nav from "react-bootstrap/Nav";
 
 import "./styling/TeamLogin.css";
-import { Button } from 'bootstrap';
 
 function TeamLogin() {
 
@@ -73,7 +69,6 @@ function TeamLogin() {
     }
 
     useEffect(() => {
-        console.log("useEffect hook called");
         fetchInfo();
     }, [])
 

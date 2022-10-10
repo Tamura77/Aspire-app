@@ -7,6 +7,7 @@ import axios from 'axios';
 import AspireNavbar from "../components/navbar";
 import HelpButton from "../components/helpButton";
 import AspireRacePopup from "../components/racePopup";
+import RaceSubmitButton from '../components/raceSubmitButton';
 
 import map from "../assets/images/campusmap.svg"
 
@@ -24,7 +25,8 @@ import ReactTooltip from "react-tooltip";
 
 function Race() {
   const navigate = useNavigate();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [submitShow, setSubmitShow] = useState(false);
   
   // States of markers
   const [markers, setMarkers] = useState(JSON.parse(localStorage.getItem("racemarkers")));
@@ -34,7 +36,6 @@ function Race() {
   const [raceName, setRaceName] = useState("");
   const [raceTask, setRaceTask] = useState("");
   const [raceAnswer, setRaceAnswer] = useState("");
-  // removed answer and setRaceAnswer
 
   const MarkersList = 
     markers.map(({name, coordinates, description, number, colour}) =>(
@@ -47,7 +48,6 @@ function Race() {
         }
         key={name}
         coordinates={coordinates.split(",").map(Number)}
-        updateMarkerColour = {updateMarkerAnswer}
         >
           <circle r={15} fill={colour} stroke="#fff" strokeWidth={1}/>
           <text className="markers" y={5}>
@@ -57,19 +57,26 @@ function Race() {
     ));
 
   // removed "newAnswer" in parameters and ", answer: newAnswer" in return
-  function updateMarkerAnswer(id){
+  function updateMarkerAnswer(id, answer){
     var updatedMarkers = markers.map((marker) => {
       if (marker.name == id){
+        if (parseInt(marker.number) === markers.length){
+          setSubmitShow(true)
+        }
         return {...marker, colour: "#2D932B"}
       }
       return marker;
     });
+
     localStorage.setItem("racemarkers", JSON.stringify(updatedMarkers));
     setMarkers(updatedMarkers);
   }
     
   return (
     <div className="mappage">
+      <RaceSubmitButton
+        show = {submitShow}
+      />
       <img src={map} alt="campus map"></img>
       <div className="campusmap" key = {Math.random() + Date.now()}>
       <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269} >

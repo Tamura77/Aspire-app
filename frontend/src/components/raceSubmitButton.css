@@ -1,0 +1,11 @@
+/* CSS for Race Submit Button component */
+
+.raceSubmitButton {
+
+    margin-top: 1em;
+
+    font-size: 20px;    
+    font-weight: bold;
+
+    float: center;
+}
