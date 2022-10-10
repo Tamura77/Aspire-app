@@ -39,9 +39,9 @@ export const pages= [
     // This is commented out as it current doesn't link to anything and just leads to an error page. 
     // However I was unsure if it would be used for something later, so I just commented it out. - Sofia
 
-    // {
-    //     name: "Links",
-    //     Icon: <BsLink45Deg/>,
-    //     Link: "/ExernalLinks"
-    // },
+    {
+        name: "Links",
+        Icon: <BsLink45Deg/>,
+        Link: "/AdminLinks"
+    },
 ];
