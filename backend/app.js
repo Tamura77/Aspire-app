@@ -402,16 +402,19 @@ app.patch("/admin/places/edit/:id", (req, res, next) => {
       console.error(err.message);
     }
   });
-  var sql = 'UPDATE places set name = ?, description = ? WHERE ID = ?'
-  params = [req.body.place_name, req.body.description, req.params.id]
-  if (req.body.place_name == "" && req.body.description != "") {
+  var sql = 'UPDATE places set name = ?, description = ?, coordinates = ? WHERE ID = ?'
+  params = [req.body.place_name, req.body.description, req.body.coords, req.params.id]
+  if (req.body.place_name == "" && req.body.coords == "" && req.body.description != "") {
     var sql = 'UPDATE places set description = ? WHERE ID = ?'
     params = [req.body.description, req.params.id]
-  } else if (req.body.description == "" && req.body.place_name != "") {
-    var sql = 'UPDATE races set name = ? WHERE ID = ?'
+  } else if (req.body.description == "" && req.body.coords == "" && req.body.place_name != "") {
+    var sql = 'UPDATE places set name = ? WHERE ID = ?'
     params = [req.body.place_name, req.params.id]
-  } else if (req.body.place_name == "" && req.body.description == "") {
-      return;
+  } else if (req.body.description == "" && req.body.place_name == "" && req.body.coords != "0, 0") {
+    var sql = 'UPDATE places set coordinates = ? WHERE ID = ?'
+    params = [req.body.coords, req.params.id]
+  } else if (req.body.place_name == "" && req.body.description == "" && req.body.coords == "") {
+    return;
   }
   db.run(
       sql,
@@ -434,11 +437,11 @@ app.post("/admin/places/post", (req, res, next) => {
       console.error(err.message);
     }
   });
-  if (req.body.place_name == '' || req.body.description == '') {
+  if (req.body.place_name == '' || req.body.description == '' || req.body.coords == '') {
     return;
   }
-  var sql = 'INSERT INTO places (name, description) VALUES (?,?)'
-  params = [req.body.place_name, req.body.description]
+  var sql = 'INSERT INTO places (name, description, coordinates) VALUES (?,?,?)'
+  params = [req.body.place_name, req.body.description, req.body.coords]
   db.run(sql, params, function(err, result) {
       if (err){
           res.status(400).json({"error": err.message})
