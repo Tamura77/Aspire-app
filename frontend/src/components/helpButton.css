@@ -15,7 +15,5 @@
     background-color: rgb(188,189,192) !important;
     color: rgb(255,255,255);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    float: right;
 }
