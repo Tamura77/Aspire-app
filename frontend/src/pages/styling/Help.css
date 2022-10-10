@@ -1,19 +1,11 @@
 /* CSS for Help.jsx*/
 
-
-.helpWrappingDiv {
-    border: 0px;
-    background-color: rgb(230,230,230);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin: 0px;
-}
-
 .helpDiv {
-    background-color: rgb(217,217,217);
+    background-color: rgb(217, 217, 217);
     padding: 20px;
-    margin-top: 20px;
     border-radius: 20px;
+    border-style: solid;
+    margin-bottom: 20px;
 }
 
 .helpTitle {
@@ -28,7 +20,7 @@
 }
 
 .helpText {
-    font-size: 24px;
+    font-size: 16px;
     padding: 8px;
     text-align: left;
 }
@@ -43,6 +35,10 @@
     color: rgb(234,53,43);
 }
 
+.greenIcon {
+    color: rgb(0, 151, 13);
+}
+
 .orangeIcon {
-    color: rgb(255,168,0);
+    color: rgb(219, 99, 0);
 }

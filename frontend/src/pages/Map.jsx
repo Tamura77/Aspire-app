@@ -68,8 +68,8 @@ function Map() {
     <ComposableMap projection="geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}> 
       {markers}
     </ComposableMap>
-    <AspireNavbar />
     <HelpButton />
+    <AspireNavbar />
     <AspireInfoPopup
       name={infoName}
       description={infoDesc}
