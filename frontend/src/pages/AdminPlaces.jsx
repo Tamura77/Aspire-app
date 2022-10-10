@@ -78,12 +78,12 @@ function AdminPlaces () {
   //const[racesTable, setRacesTable] = useState(null); Only needed if we add the place table at the bottom of the page.
 
   function changePlace() {
-    axios.patch("http://localhost:5000/admin/places/edit/" + placeID, {place_name: name, description: desc}).then(function(response){console.log(response);})
+    axios.patch("http://localhost:5000/admin/places/edit/" + placeID, {place_name: name, description: desc, coords: `${state.xcoord}` + ", " + `${state.ycoord}`}).then(function(response){console.log(response);})
     location.reload();
   }
 
   function postPlace() {
-    axios.post("http://localhost:5000/admin/places/post", {place_name: name, description: desc}).then(function(response){console.log(response);})
+    axios.post("http://localhost:5000/admin/places/post", {place_name: name, description: desc, coords: `${state.xcoord}` + ", " + `${state.ycoord}`}).then(function(response){console.log(response);})
     location.reload();
   }
 
@@ -115,6 +115,11 @@ function AdminPlaces () {
                     <label>Description:</label>
                     <input type="text" className="form-control" placeholder="Enter Description" value={desc} 
                       onChange={(e) => setDesc(e.target.value)}></input>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Coordinates:</label>
+                    <input type="text" className="form-control" placeholder={`${state.xcoord}` + ", " + `${state.ycoord}`}></input>
                   </div>
 
                   <button type="button" className="btn btn-primary" onClick={changePlace}>Update</button>
