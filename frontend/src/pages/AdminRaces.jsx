@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios"
+import Table from 'react-bootstrap/Table';
 
 //Components
 import Sidebar from "../components/sidebar";
@@ -9,66 +10,112 @@ import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
 function AdminRaces () {
+
+  const [raceID, setRace] = useState("");
+  const [name, setName] = useState("");
+  const [taskID, setTaskID] = useState("");
+  const[racesTable, setRacesTable] = useState(null);
+
+  function changeRace() {
+    axios.patch("http://localhost:5000/admin/races/edit/" + raceID, {task_id: taskID, race_name: name}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function postRace() {
+    axios.post("http://localhost:5000/admin/races/post", {task_id: taskID, race_name: name}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function deleteRace() {
+    axios.delete("http://localhost:5000/admin/races/delete/" + raceID, {id: raceID}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function dropDownMaker(jsonData, divID) {
+    for (let i = 0; i < jsonData.length; i++) {
+      var option = document.createElement("option");
+      option.value = jsonData[i].id;
+      var description = jsonData[i].description; 
+      if (description.length > 40){
+        description = `${description.substring(0, 40)}...`;
+      }
+      option.innerHTML = description;
+      document.getElementById(divID).appendChild(option);
+    }
+  }
+
   const fetchData = async () => {
-    const races = await axios.get("http://localhost:5000/table/taskdescs");
-    tableMaker(races.data, "tasks");
-}
-function tableMaker(jsonData, divID) {
-    let col = [];
-    for (let i = 0; i < jsonData.length; i++) {
-      for (let key in jsonData[i]) {
-        if (col.indexOf(key) === -1) {
-          col.push(key);
-        }
-      }
-    }
-  
-    // Create table
-    const table = document.createElement("table");
-  
-    // Create table header
-    let tr = table.insertRow(-1);
-  
-    for (let i = 0; i < col.length; i++) {
-      let th = document.createElement("th");
-      th.innerHTML = col[i];
-      tr.appendChild(th);
-    }
-  
-    // Add JSON data to table rows
-    for (let i = 0; i < jsonData.length; i++) {
-  
-      tr = table.insertRow(-1);
-  
-      for (let j = 0; j < col.length; j++) {
-        let tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = jsonData[i][col[j]];
-      }
-    }
+    const tasks = await axios.get("http://localhost:5000/table/tasks");
+    const races = await axios.get("http://localhost:5000/table/races");
+    dropDownMaker(tasks.data, "task-select");
 
-    // Append table to div
-    const divTableData = document.getElementById(divID);
-    divTableData.innerHTML = "";
-    divTableData.appendChild(table);
-}
+    setRacesTable(
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Race ID:</th>
+            <th>Task:</th>
+            <th>Race Name:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {races.data.map(({id, description, race_name}) =>(
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{ description.length > 40 ? `${description.substring(0, 40)}...` : description }</td>
+            <td>{ race_name.length > 20 ? `${race_name.substring(0, 20)}...` : race_name }</td>
+          </tr>
+          ))}
+        </tbody>
+      </Table>
+    );
+  }
 
-useEffect(() => {
-    console.log("useEffect hook called");
-    fetchData();
-}, [])
+  const dataFetchedRef = useRef(false);
+
+  useEffect(() => {
+      console.log("useEffect hook called");
+      if (dataFetchedRef.current) return;
+      dataFetchedRef.current = true;
+      fetchData();
+  }, [])
+
   return (
     <>
     <div className="admin-div">
-        <Sidebar/>
-        <div className="table-display">
+      <Sidebar/>
+      <div className="table-display">
             <div className="database-table">
                 <h1>Races Editor</h1>
-            </div>
-            <div className="database-table" id="tasks">
-                <h1>Tasks</h1>
+                <div className="form-group">
+                    <label>Race ID:</label>
+                    <input type="text" value={raceID} onChange={(e) => setRace(e.target.value)}
+                      placeholder="Enter Race ID" className="form-control"></input>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Task:</label>
+                    <select id="task-select" value={taskID} onChange={(e) => setTaskID(e.target.value)}>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Race Name:</label>
+                    <input type="text" className="form-control" id="description" placeholder="Enter Race Name" value={name} 
+                    onChange={(e) => setName(e.target.value)}></input>
+                  </div>
+
+                  <button type="button" className="btn btn-primary" onClick={changeRace}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={deleteRace}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={postRace}>Post</button>
             </div>
         </div>
-    </div>
+            <div className="database-table" id="tasks">
+                <h1>Races</h1>
+                {racesTable}
+            </div>
+        </div>
     </>
   );
 }

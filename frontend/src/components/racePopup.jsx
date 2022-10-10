@@ -16,19 +16,19 @@ function AspireRacePopup(props){
         centered
     >
         <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Title id="contained-modal-title-vcenter alignTextLeft">
             {props.name}
         </Modal.Title>
         </Modal.Header>
         
         <Modal.Body>
-        <p>
+        <p className = "alignTextLeft">
             {props.task}
         </p>
         <Form>
             <Form.Group className="mb-3" controlId="formControlTextarea1">
                 <Form.Control placeholder="enter answer here" as="textarea" rows={3} 
-                type="text">
+                type="text" className="alignTextLeft">
                     {inputValue}
                 </Form.Control >
           </Form.Group>

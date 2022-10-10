@@ -1,5 +1,4 @@
 import {useQuery} from "@tanstack/react-query";
-import { fetchExample } from "../requests/example";
 
 function PageNotFound () {
   return (

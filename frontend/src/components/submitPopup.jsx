@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "./infoPopup.css";
 
-function AspireInfoPopup(props){
+function AspireSubmitPopup(props){
     return (
     <Modal
         {...props}
@@ -11,21 +10,22 @@ function AspireInfoPopup(props){
         aria-labelledby="contained-modal-title-vcenter"
         centered
     >
-        <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-            {props.name}
-        </Modal.Title>
-        </Modal.Header>
         <Modal.Body>
-        <p class="alignTextLeft">
-            {props.description}
+        <p>
+            Are you sure?
         </p>
         </Modal.Body>
         <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={
+            function(e){
+                props.submitRequest();
+                props.onHide;
+            }
+        }>Yes</Button>
+        <Button onClick={props.onHide}>No</Button>
         </Modal.Footer>
     </Modal>
     );
 }
 
-export default AspireInfoPopup
+export default AspireSubmitPopup

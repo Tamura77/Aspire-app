@@ -1,9 +1,10 @@
+/* Side bar height to lock scrolling (can adjust later) */
 .sidebar{
-    height: 100vh;
+    height: 937px;  
     width: 200px;
     background-color: rgb(91, 92, 81);
-
 }
+
 .sidebarlist{
     height: auto;
     width: 100%;

@@ -48,10 +48,10 @@ app.get("/races/:id", function(req, res) {
       console.error(err.message);
     }
   });
-  var raceid = req.params.id;
+  var race_name = req.params.id;
   var params = [];
   db.serialize(() => {
-    db.all('SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id JOIN races ON races.task_id = tasks.id WHERE races.race_id =' + raceid + ';', params, (err, rows) => {
+    db.all('SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id JOIN races ON races.task_id = tasks.id WHERE races.race_name =' + race_name + ';', params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
@@ -77,21 +77,20 @@ app.listen(port, function() {
  console.log("Server started successfully");
 });
 
-// POST ADMIN FOR TEAMS (CHANGE LATER)
+// POST ADMIN FOR Tasks (CHANGE LATER)
 
-app.post("/admin/teams/", (req, res, next) => {
+app.post("/admin/tasks/post", (req, res, next) => {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error(err.message);
     }
   });
   console.log(req.body);
-  var sql = 'INSERT INTO races (task_id, race_id) VALUES (?,?)'
-  data = {
-    task_id: parseInt(req.body.task_id),
-    race_id: parseInt(req.body.race_id)
+  if (req.body.location == '' || req.body.description == '') {
+    return;
   }
-  params = [data.task_id, data.race_id]
+  var sql = 'INSERT INTO tasks (place_id, description) VALUES (?,?)'
+  params = [req.body.location, req.body.description]
   db.run(sql, params, function(err, result) {
       if (err){
           res.status(400).json({"error": err.message})
@@ -157,7 +156,7 @@ app.get("/table/races", function(req, res) {
   });
   var params = [];
   db.serialize(() => {
-    db.all(`SELECT * FROM races`, params, (err, rows) => {
+    db.all(`SELECT races.id, races.task_id, races.race_name, tasks.description FROM races JOIN tasks ON races.task_id = tasks.id`, params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
@@ -207,7 +206,7 @@ app.get("/table/tasks", function(req, res) {
   });
   var params = [];
   db.serialize(() => {
-    db.all(`SELECT id, place_id, description FROM tasks`, params, (err, rows) => {
+    db.all(`SELECT tasks.id, place_id, tasks.description, places.name FROM tasks JOIN places ON places.id = tasks.place_id`, params, (err, rows) => {
       if (err) {
         console.error(err.message);
       }
@@ -271,3 +270,127 @@ app.get("/table/taskdescs", function(req, res) {
     }
   });
 })
+
+
+//PATCH FOR ADMIN TASK EDITOR
+
+app.patch("/admin/tasks/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE tasks set place_id = ?, description = ? WHERE ID = ?'
+  params = [req.body.location, req.body.description, req.params.id]
+  if (req.body.location == "" && req.body.description != "") {
+    var sql = 'UPDATE tasks set description = ? WHERE ID = ?'
+    params = [req.body.description, req.params.id]
+  } else if (req.body.description == "" && req.body.location != "") {
+    var sql = 'UPDATE tasks set place_id = ? WHERE ID = ?'
+    params = [req.body.location, req.params.id]
+  } else if (req.body.location == "" && req.body.description == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+// DELETE FOR ADMIN TASK EDITOR
+
+app.delete("/admin/tasks/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM tasks WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+
+// Update for Race table in admin editor
+
+app.patch("/admin/races/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE races set task_id = ?, race_name = ? WHERE ID = ?'
+  params = [req.body.task_id, req.body.race_name, req.params.id]
+  if (req.body.task_id == "" && req.body.race_name != "") {
+    var sql = 'UPDATE races set race_name = ? WHERE ID = ?'
+    params = [req.body.race_name, req.params.id]
+  } else if (req.body.race_name == "" && req.body.task_id != "") {
+    var sql = 'UPDATE races set task_id = ? WHERE ID = ?'
+    params = [req.body.task_id, req.params.id]
+  } else if (req.body.task_id == "" && req.body.race_name == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+// Delete for Race table in Admin EDITOR
+
+app.delete("/admin/races/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM races WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+// POST FOR RACE TABLE
+
+app.post("/admin/races/post", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  console.log(req.body);
+  if (req.body.task_id == '' || req.body.race_name == '') {
+    return;
+  }
+  var sql = 'INSERT INTO races (task_id, race_name) VALUES (?,?)'
+  params = [req.body.task_id, req.body.race_name]
+  db.run(sql, params, function(err, result) {
+      if (err){
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      })
+    })
