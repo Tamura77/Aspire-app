@@ -30,6 +30,7 @@
 .helpText {
     font-size: 24px;
     padding: 8px;
+    text-align: left;
 }
 
 .helpIcon {

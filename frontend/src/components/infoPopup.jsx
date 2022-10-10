@@ -17,7 +17,7 @@ function AspireInfoPopup(props){
         </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <p>
+        <p class="alignTextLeft">
             {props.description}
         </p>
         </Modal.Body>

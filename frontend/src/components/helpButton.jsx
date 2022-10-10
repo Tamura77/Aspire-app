@@ -13,8 +13,8 @@ import Button from "react-bootstrap/Button";
 // HelpButton component links to the help page
 function HelpButton() {
     return (
-        <div className="fixed-top" align="right">
-            <Button className="helpButton" align="right" href='/Help'>
+        <div className="fixed-top">
+            <Button className="helpButton" href='/Help'>
                 ?
             </Button>
         </div>

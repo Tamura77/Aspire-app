@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {useQuery} from "@tanstack/react-query";
-import { fetchExample } from "../requests/example";
 import { useNavigate } from "react-router-dom";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import axios from 'axios';
@@ -28,12 +27,15 @@ function Map() {
   const [modalShow, setModalShow] = React.useState(false);
   var [infoName, setInfoName] = useState("");
   var [infoDesc, setInfoDesc] = useState("");
-  const [markers, setMarkers] = useState(JSON.parse(localStorage.getItem("infomarkers")));
+  const [markers, setMarkers] = useState("");
   const navigate = useNavigate();
 
-  const MarkersList = 
-    markers.map(({name, coordinates, description}) =>(
-      <Marker 
+  const fetchInfo = async () => {
+    const info = await axios.get("http://localhost:5000/places");
+    localStorage.setItem("infomarkers", JSON.stringify(info.data));
+    setMarkers(
+      JSON.parse(localStorage.getItem("infomarkers")).map(({name, coordinates, description}) =>(
+        <Marker 
         onClick={
           function(e){
             setInfoName(name);
@@ -42,20 +44,29 @@ function Map() {
           }
         } 
         key={name} coordinates={coordinates.split(",").map(Number)}>
-        <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
-        <text className="markers" y={-20}>
-          {""}
-        </text>
-      </Marker>
+          <circle r={10} fill="#FFA500" stroke="#fff" strokeWidth={1}/>
+          <text className="markers" y={-20}>
+            {""}
+          </text>
+        </Marker>
+      ))
+    )
+  }
+  
+  useEffect(() => {
+    fetchInfo();
+  }, [])
 
-    ));
+  if (markers === ""){
+    return <div>loading...</div>
+  }
 
   return (
     <div className="mappage">
     <img src={map} alt="campus map"></img>
     <div className="campusmap">
     <ComposableMap projection="geoMercator" projectionConfig={{scale: 130}} width={793} height={1269}> 
-      {MarkersList}
+      {markers}
     </ComposableMap>
     <AspireNavbar />
     <HelpButton />

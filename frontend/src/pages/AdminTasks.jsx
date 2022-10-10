@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router , Link } from "react-router-dom";
+import axios from "axios"
+import Table from 'react-bootstrap/Table';
 
 //icons
 import {BsFillArrowRightSquareFill} from "react-icons/bs"
@@ -7,6 +9,7 @@ import {BsFillArrowLeftSquareFill} from "react-icons/bs"
 
 //Components
 import Sidebar from "../components/sidebar";
+import AspireSubmitPopup from "../components/submitPopup";
 
 //Styling
 import "./styling/Tasks.css"
@@ -48,34 +51,140 @@ import "../components/sidebar.css"
 //Below is what I currently have for the other pages - Sofia
 
 function AdminTasks () {
+  const [place, setPlace] = useState("");
+  const [desc, setDesc] = useState("");
+  const [task, setTask] = useState("");
+  const [taskID, setID] = useState("");
+  const[tasksTable, setTasksTable] = useState(null);
+  const [request, setRequest] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  
+
+  function changeTask() {
+    console.log(task)
+    axios.patch("http://localhost:5000/admin/tasks/edit/" + taskID, {location: place, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function postTask() {
+    axios.post("http://localhost:5000/admin/tasks/post", {location: place, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function deleteTask() {
+    axios.delete("http://localhost:5000/admin/tasks/delete/" + taskID, {id: taskID}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function submitRequest() {
+    if (request == "changeTask") {
+      changeTask();
+    }
+    else if (request == "deleteTask") {
+      deleteTask();
+    }
+    else if (request == "postTask"){
+      postTask();
+    }
+  }
+
+  const fetchData = async () => {
+    const tasks = await axios.get("http://localhost:5000/table/tasks");
+    const places = await axios.get("http://localhost:5000/table/places")
+    dropDownMaker(places.data, "place-select");
+
+    setTasksTable(
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Task ID:</th>
+            <th>Task Location:</th>
+            <th>Task Description:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.data.map(({id, name, description}) =>(
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{name}</td>
+            <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
+          </tr>
+          ))}
+        </tbody>
+      </Table>
+    );
+}
+
+function dropDownMaker(jsonData, divID) {
+  for (let i = 0; i < jsonData.length; i++) {
+    var option = document.createElement("option");
+    option.value = jsonData[i].id;
+    option.innerHTML = jsonData[i].name;
+    document.getElementById(divID).appendChild(option);
+  }
+}
+
+  
+
+const dataFetchedRef = useRef(false);
+
+useEffect(() => {
+    console.log("useEffect hook called");
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    fetchData();
+}, [])
+
   return (
     <>
     <div className="admin-div">
         <Sidebar/>
         <div className="table-display">
             <div className="database-table">
-                <h1>Task Editor</h1>
-                {/* THE ACTION SHOULD BE BINDED WITH THE SUBMIT TO THE DATABASE */}
-                <form action="">
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter Name"></input>
+                <h1>Task Editor:</h1>
+                  <div className="form-group">
+                    <label>Task ID:</label>
+                    <input type="text" value={taskID} onChange={(e) => setID(e.target.value)}
+                      placeholder="Enter Task ID" className="form-control"></input>
                   </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="number" class="form-control" id="location" placeholder="Select Location"></input>
+                  
+                  <div className="form-group">
+                    <label>Location:</label>
+                    <select id="place-select" value={place} onChange={(e) => setPlace(e.target.value)}>
+                      <option value=""></option>
+                    </select>
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" placeholder="Enter Description"></input>
+                  
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <input type="text" className="form-control" id="description" placeholder="Enter Description" value={desc} 
+                    onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
-                  <button className="submit-button" type="submit" class="btn btn-default">Submit</button>
-                </form>
+
+                  <button type="button" className="btn btn-primary" onClick={
+                    function(e){
+                      setRequest("changeTask");
+                      setModalShow(true)
+                    }}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                      setRequest("deleteTask");
+                      setModalShow(true)
+                    }}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                      setRequest("postTask");
+                      setModalShow(true)
+                    }}>Post</button>
             </div>
-            <div className="database-table">
-                <h1>Locations</h1>
+            <div className="database-table" id="tasks">
+                <h1>Tasks</h1>
+                {tasksTable}
             </div>
         </div>
+        <AspireSubmitPopup
+          submitRequest = {submitRequest}
+          show = {modalShow}
+          onHide={() => setModalShow(false)}
+        />
     </div>
     </>
   );
