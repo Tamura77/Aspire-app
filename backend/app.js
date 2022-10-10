@@ -85,7 +85,6 @@ app.post("/admin/tasks/post", (req, res, next) => {
       console.error(err.message);
     }
   });
-  console.log(req.body);
   if (req.body.location == '' || req.body.description == '') {
     return;
   }
@@ -123,7 +122,7 @@ app.patch("/admin/edit/:id", (req, res, next) => {
 
 // GET LINKS TABLE
 
-app.get("/links", function(req, res) {
+app.get("/table/links", function(req, res) {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error(err.message);
@@ -381,7 +380,6 @@ app.post("/admin/races/post", (req, res, next) => {
       console.error(err.message);
     }
   });
-  console.log(req.body);
   if (req.body.task_id == '' || req.body.race_name == '') {
     return;
   }
@@ -394,3 +392,151 @@ app.post("/admin/races/post", (req, res, next) => {
       }
       })
     })
+
+
+// Update for Location Table
+
+app.patch("/admin/places/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE places set name = ?, description = ? WHERE ID = ?'
+  params = [req.body.place_name, req.body.description, req.params.id]
+  if (req.body.place_name == "" && req.body.description != "") {
+    var sql = 'UPDATE places set description = ? WHERE ID = ?'
+    params = [req.body.description, req.params.id]
+  } else if (req.body.description == "" && req.body.place_name != "") {
+    var sql = 'UPDATE races set name = ? WHERE ID = ?'
+    params = [req.body.place_name, req.params.id]
+  } else if (req.body.place_name == "" && req.body.description == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+
+// Post for Location Table
+
+app.post("/admin/places/post", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  if (req.body.place_name == '' || req.body.description == '') {
+    return;
+  }
+  var sql = 'INSERT INTO places (name, description) VALUES (?,?)'
+  params = [req.body.place_name, req.body.description]
+  db.run(sql, params, function(err, result) {
+      if (err){
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      })
+    })
+
+
+// Delete for Locaton Table
+
+app.delete("/admin/places/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM places WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+
+// Update for Links table
+
+app.patch("/admin/links/edit/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  var sql = 'UPDATE links set title = ?, url = ? WHERE ID = ?'
+  params = [req.body.title, req.body.url, req.params.id]
+  if (req.body.title == "" && req.body.url != "") {
+    var sql = 'UPDATE links set url = ? WHERE ID = ?'
+    params = [req.body.url, req.params.id]
+  } else if (req.body.url == "" && req.body.title != "") {
+    var sql = 'UPDATE links set title = ? WHERE ID = ?'
+    params = [req.body.title, req.params.id]
+  } else if (req.body.title == "" && req.body.url == "") {
+      return;
+  }
+  db.run(
+      sql,
+      params,
+      function (err, result) {
+        
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
+
+
+// Post for Links table
+
+app.post("/admin/links/post", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  if (req.body.title == '' || req.body.url == '') {
+    return;
+  }
+  var sql = 'INSERT INTO links (title, url) VALUES (?,?)'
+  params = [req.body.title, req.body.url]
+  db.run(sql, params, function(err, result) {
+      if (err){
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      })
+    })
+
+
+// Delete for Links table
+
+app.delete("/admin/links/delete/:id", (req, res, next) => {
+  let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  db.run(
+      'DELETE FROM links WHERE id = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+  });
+})
