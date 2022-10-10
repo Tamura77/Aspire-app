@@ -17,6 +17,7 @@ import AdminPlaces from './pages/AdminPlaces';
 import AdminTables from './pages/AdminTables';
 import AdminRaces from './pages/AdminRaces';
 import AdminHelp from './pages/AdminHelp';
+import AdminLinks from './pages/AdminLinks';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="AdminTables" element={<AdminTables/>}/>
         <Route path="AdminHelp" element={<AdminHelp/>}/>
         <Route path="AdminTasks" element={<AdminTasks/>}/>
+        <Route path="AdminLinks" element={<AdminLinks/>}/>
         <Route path="*" element={<PageNotFound />} />
         {/* normally all lowercase and "-" inbetween words */}
         {/* admin pages should be "admin/places" or "admin/page", for the password checking */}
