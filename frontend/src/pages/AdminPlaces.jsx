@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 
 //Components
 import Sidebar from "../components/sidebar";
@@ -67,29 +68,58 @@ function AdminPlaces () {
 
   const [show1, setShow1]=useState(true)
   const [show2, setShow2]=useState(false)
+  // REQUESTS
+
+  const [placeID, setPlaceID] = useState("");
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  //Not yet requesting coordinates/location
+  //Also - to remove the "acitve" column in the Places table
+  //const[racesTable, setRacesTable] = useState(null); Only needed if we add the place table at the bottom of the page.
+
+  function changePlace() {
+    axios.patch("http://localhost:5000/admin/places/edit/" + placeID, {place_name: name, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function postPlace() {
+    axios.post("http://localhost:5000/admin/places/post", {place_name: name, description: desc}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
+  function deletePlace() {
+    axios.delete("http://localhost:5000/admin/places/delete/" + placeID, {id: placeID}).then(function(response){console.log(response);})
+    location.reload();
+  }
+
   return (
     <>
     <div className="admin-div">
         <Sidebar/>
         <div className="table-display">
-            <div className="locations-table">
-                <h1>Location Editor</h1>
-                {/* THE ACTION SHOULD BE BINDED WITH THE SUBMIT TO THE DATABASE */}
-                <form action="">
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter Name"></input>
+        <div className="database-table">
+                <h1>Places Editor:</h1>
+                <div className="form-group">
+                    <label>Place ID:</label>
+                    <input type="text" value={placeID} onChange={(e) => setPlaceID(e.target.value)}
+                      placeholder="Enter Place ID" className="form-control"></input>
                   </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="number" class="form-control" id="location" placeholder={`${state.xcoord}` + ", " + `${state.ycoord}`}></input>
+                  
+                  <div className="form-group">
+                    <label>Place Name:</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter Place Name" className="form-control"></input>
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" placeholder="Enter Description"></input>
+                  
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <input type="text" className="form-control" placeholder="Enter Description" value={desc} 
+                      onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
-                  <button className="submit-button" type="submit" class="btn btn-default">Submit</button>
-                </form>
+
+                  <button type="button" className="btn btn-primary" onClick={changePlace}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={deletePlace}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={postPlace}>Post</button>
             </div>
             <div className="locations-table">
                 <h1>Map</h1>
