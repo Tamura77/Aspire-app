@@ -45,7 +45,9 @@ function Help() {
                         </div>
                     </Col>
                     <Col md="3">
-                        <MdLocationPin className="helpIcon orangeIcon" />
+                        <svg width="100" height="100">
+                          <circle cx="50" cy="50" r="20" stroke="#fff" strokeWidth="2" fill="#FFA500" />
+                        </svg>
                     </Col>
                 </Row>
             </div>
@@ -58,7 +60,7 @@ function Help() {
                 <Row>
                     <Col md="9">
                         <div className="helpText">
-                            Switch to the race page and enter your provided race code. Then wait for the race to begin.
+                            Switch to the race page and enter your provided race code.
                         </div>
                     </Col>
                     <Col md="3">
@@ -86,7 +88,13 @@ function Help() {
                         </div>
                     </Col>
                     <Col md="3">
-                        <MdLocationPin className="helpIcon redIcon" align="center" />
+                        <svg width="100" height="100">
+                            <circle cx="50" cy="50" r="20" stroke="#fff" strokeWidth="2" fill="#FF0000">
+                            <text x="50" y="50" fill="#fff">
+                                1
+                            </text>
+                            </circle>
+                        </svg>
                     </Col>
                 </Row>
                 <Row>
@@ -96,7 +104,9 @@ function Help() {
                         </div>
                     </Col>
                     <Col md="3">
-                        <MdLocationPin className="helpIcon greenIcon" align="center" />
+                        <svg width="100" height="100">
+                          <circle cx="50" cy="50" r="20" stroke="#fff" strokeWidth="2" fill="#2D932B" />
+                        </svg>
                     </Col>
                 </Row>
                 <Row>
