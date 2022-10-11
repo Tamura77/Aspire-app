@@ -3,20 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import "./racePopup.css";
-import e from 'cors';
 
 function AspireRacePopup(props){
 
     var [inputValue, setInputValue] = useState(props.answer);
     const answers = JSON.parse(localStorage.getItem("raceanswers"));
-    console.log(answers);
-
     var answer = null;
     if (answers != null){
         const i = answers.findIndex(e => e.id === props.name);
         if (i > -1) {
             answer = "Previous Answer: " + answers[i].answer
-            console.log(answer);
         }
     }
 
@@ -52,7 +48,12 @@ function AspireRacePopup(props){
         <Modal.Footer>
         <Button variant="secondary" onClick={props.onHide}>Close</Button>
         <Button variant="primary" onClick={function(e){
-            props.updateMarkerAnswer(props.name, inputValue);
+            if (inputValue == undefined){
+                alert("please input an answer")
+            }
+            else{
+                props.updateMarkerAnswer(props.name, inputValue);
+            }
         }}>Save changes</Button>
         </Modal.Footer>
     </Modal>

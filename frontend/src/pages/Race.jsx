@@ -39,11 +39,26 @@ function Race() {
     markers.map(({name, coordinates, description, number, colour}) =>(
       <Marker 
         onClick={function(e){
-          setRaceName(name);
-          setRaceTask(description);
-          setModalShow(true);
+            var answers = JSON.parse(localStorage.getItem("raceanswers"));
+            if (answers == null && parseInt(number) === 1){
+              setRaceName(name);
+              setRaceTask(description);
+              setModalShow(true);
+            }
+            else if (answers == null){
+              alert("Finish current task first!")
+            }
+            else if (answers.length >= number-1){
+              setRaceName(name);
+              setRaceTask(description);
+              setModalShow(true);
+            }
+            else{
+              alert("Finish current task first!")
+            } 
           }
         }
+        number={number}
         key={name}
         coordinates={coordinates.split(",").map(Number)}
         >
@@ -60,8 +75,7 @@ function Race() {
       localStorage.setItem("raceanswers", JSON.stringify([{id : id, answer: answer}]))
     }
     else{
-      var answers = JSON.parse(localStorage.getItem("raceanswers"))
-      
+      var answers = JSON.parse(localStorage.getItem("raceanswers"));
       const i = answers.findIndex(e => e.id === id);
       if (i > -1) {
         // if same question has been answered before
