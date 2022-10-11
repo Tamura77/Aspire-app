@@ -30,12 +30,10 @@ function Race() {
   
   // States of markers
   const [markers, setMarkers] = useState(JSON.parse(localStorage.getItem("racemarkers")));
-  // const [markersList, setMarkersList] = useState("");
   
   // name and description for popup with method to update values
   const [raceName, setRaceName] = useState("");
   const [raceTask, setRaceTask] = useState("");
-  const [raceAnswer, setRaceAnswer] = useState("");
 
   const MarkersList = 
     markers.map(({name, coordinates, description, number, colour}) =>(
@@ -58,11 +56,31 @@ function Race() {
 
   // removed "newAnswer" in parameters and ", answer: newAnswer" in return
   function updateMarkerAnswer(id, answer){
+    if (localStorage.getItem("raceanswers") === null){
+      localStorage.setItem("raceanswers", JSON.stringify([{id : id, answer: answer}]))
+    }
+    else{
+      var answers = JSON.parse(localStorage.getItem("raceanswers"))
+      
+      const i = answers.findIndex(e => e.id === id);
+      if (i > -1) {
+        // if same question has been answered before
+        answers[i] = {id : id, answer: answer}
+      }
+      else{
+        answers.push({id : id, answer: answer})
+      }
+      localStorage.setItem("raceanswers", JSON.stringify(answers));
+    }
+
     var updatedMarkers = markers.map((marker) => {
-      if (marker.name == id){
+      if (marker.name == id){ 
+        // Show Submit Button on Last Submission
         if (parseInt(marker.number) === markers.length){
           setSubmitShow(true)
         }
+
+        // Change Marker Colour
         return {...marker, colour: "#2D932B"}
       }
       return marker;
@@ -74,9 +92,6 @@ function Race() {
     
   return (
     <div className="mappage">
-      <RaceSubmitButton
-        show = {submitShow}
-      />
       <img src={map} alt="campus map"></img>
       <div className="campusmap" key = {Math.random() + Date.now()}>
       <ComposableMap projection = "geoMercator" projectionConfig={{scale: 130}} width={793} height={1269} >
@@ -84,12 +99,14 @@ function Race() {
       </ComposableMap>
       <AspireNavbar />
       <HelpButton />
+      <RaceSubmitButton
+        show = {submitShow}
+      />
       <AspireRacePopup
         name = {raceName}
         task = {raceTask}
         updateMarkerAnswer = {updateMarkerAnswer}
         show = {modalShow}
-        answer = {raceAnswer}
         onHide={() => setModalShow(false)}
       />
       </div>
