@@ -68,7 +68,7 @@ function AdminHelp() {
                                     A race is a collection of tasks in a specific order the race is configured in
                                     the Race page. The race page shows you the current race on the right hand side and 
                                     allows you to modify the race using the left hand side. To add to the race select 
-                                    a task and the race name then click add. To delete a task from a race enter its Race
+                                    a task and the race name then click post. To delete a task from a race enter its Race
                                     ID and press delete. To change one of the tasks enter its Race ID then select a new 
                                     task and press update. The order of the tasks is important as it is displayed to the 
                                     users and tells them the order to do the tasks in. The order of the tasks can be 
@@ -89,9 +89,9 @@ function AdminHelp() {
                                 <div className="helpText">
                                     The locations page allows you to manage the places where tasks can be set and the places 
                                     displayed in the information mode. To add a new location press somewhere on the map enter 
-                                    a description, a place name and then click post. To access the lower half of the map click 
+                                    a description, a place name and then click post. To access the lower half of the map click the 
                                     down button and then click on a location, to return to the top half click the up button. To
-                                    delte a location enter the Place ID (available on the tables page) then click delete. To update 
+                                    delete a location enter the Place ID (available on the tables page) then click delete. To update 
                                     a location enter the Place ID and then edit any of the place name, description or coordinate 
                                     fields and then click update.
                                 </div>
