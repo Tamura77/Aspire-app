@@ -120,7 +120,7 @@ app.patch("/admin/edit/:id", (req, res, next) => {
   });
 })
 
-// GET LINKS TABLE
+// GET LINKS TABLE FOR ADMIN PAGE
 
 app.get("/table/links", function(req, res) {
   let db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -144,6 +144,7 @@ app.get("/table/links", function(req, res) {
     }
   });
 })
+
 
 // GET RACES TABLE FOR ADMIN PAGE
 

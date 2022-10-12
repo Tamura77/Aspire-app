@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
+import axios from "axios"
 
 import AspireNavbar from "../components/navbar";
 import HelpButton from "../components/helpButton";
 
 import "./styling/ExternalLinks.css";
+
+// Fetches the links from the database each time the page is loaded
+const fetchLinks = async () => {
+  const links = await axios.get("http://localhost:5000/table/links");
+  console.log(links.data);
+  localStorage.setItem("links", JSON.stringify([links.data]));
+}
+
+fetchLinks();
+console.log(localStorage.getItem("links")); // Can either use the localStorage to put them onto the buttons or can run the creation of the elements below in the fetchLinks function and call the links.data directly
 
 function ExternalLinks() {
   return (
