@@ -6,23 +6,23 @@ function AspireSubmitPopup(props){
     return (
     <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
     >
         <Modal.Body>
         <p>
-            Are you sure?
+            Are you sure you want to complete this action?
         </p>
         </Modal.Body>
         <Modal.Footer>
-        <Button onClick={
+        <Button className="btn btn-success" onClick={
             function(e){
                 props.submitRequest();
                 props.onHide;
             }
         }>Yes</Button>
-        <Button onClick={props.onHide}>No</Button>
+        <Button className="btn btn-danger" onClick={props.onHide}>No</Button>
         </Modal.Footer>
     </Modal>
     );
