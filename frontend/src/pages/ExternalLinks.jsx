@@ -11,15 +11,32 @@ import "./styling/ExternalLinks.css";
 
 
 function ExternalLinks() {
+
+  const [uwaLinks, setUwaLinks] = useState("");
+  const [externalLinks, setExternalLinks] = useState("");
+
   const fetchLinks = async () => {
     const links = await axios.get("http://localhost:5000/table/links");
-    console.log(links.data);
-    localStorage.setItem("links", JSON.stringify([links.data]));
+
+    setUwaLinks(
+      links.data.filter(({category}) => (category == "UWA")).map(({id, title, url}) =>(
+        <Button key={id} variant="light" size="lg" href={url} target="_blank">
+          <h3>{title}</h3>
+        </Button>
+      ))
+    );
+
+    setExternalLinks(
+      links.data.filter(({category}) => (category == "Other")).map(({id, title, url}) =>(
+        <Button key={id} variant="light" size="lg" href={url} target="_blank">
+          <h3>{title}</h3>
+        </Button>
+      ))
+    );
   }
 
   useEffect(() => {
     fetchLinks();
-    console.log(localStorage.getItem("links")); // Can either use the localStorage to put them onto the buttons or can run the creation of the elements below in the fetchLinks function and call the links.data directly
   }, [])
   
   return (
@@ -28,13 +45,9 @@ function ExternalLinks() {
 
       <div className="d-grid gap-3">
         <h1>UWA Information Links</h1>
-        <Button variant="light" size="lg" href="https://www.uwa.edu.au/study/how-to-apply/admission-entry-pathways/" target="_blank"><h3>Pathways to Uni</h3></Button>
-        <Button variant="light" size="lg" href="https://www.uwa.edu.au/study/Scholarships/Explore" target="_blank"><h3>Scholarships</h3></Button>
-        <Button variant="light" size="lg" href="https://www.uwa.edu.au/study/student-life/student-support" target="_blank"><h3>Student Support Services</h3></Button>
-        <Button variant="light" size="lg" href="https://www.uwa.edu.au/students/Support-services/Academic-support" target="_blank"><h3>Study Resources</h3></Button>
+        {uwaLinks}
         <h1>Useful External Links</h1>
-        <Button variant="light" size="lg" href="https://myfuture.edu.au/" target="_blank"><h3>myfuture.edu.au</h3></Button>
-        <Button variant="light" size="lg" href="https://myfuture.edu.au/bullseyes" target="_blank"><h3>Career Bullseyes</h3></Button>
+        {externalLinks}
       </div>
     
     </div>
