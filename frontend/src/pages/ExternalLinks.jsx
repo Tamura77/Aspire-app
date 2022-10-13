@@ -13,7 +13,7 @@ import "./styling/ExternalLinks.css";
 function ExternalLinks() {
 
   const [uwaLinks, setUwaLinks] = useState("");
-  const [externalLinks, setExternalLinks] = useState("");
+  const [otherLinks, setOtherLinks] = useState("");
 
   const fetchLinks = async () => {
     const links = await axios.get("http://localhost:5000/table/links");
@@ -26,7 +26,7 @@ function ExternalLinks() {
       ))
     );
 
-    setExternalLinks(
+    setOtherLinks(
       links.data.filter(({category}) => (category == "Other")).map(({id, title, url}) =>(
         <Button key={id} variant="light" size="lg" href={url} target="_blank">
           <h3>{title}</h3>
@@ -47,7 +47,7 @@ function ExternalLinks() {
         <h1>UWA Information Links</h1>
         {uwaLinks}
         <h1>Useful External Links</h1>
-        {externalLinks}
+        {otherLinks}
       </div>
     
     </div>
