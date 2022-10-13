@@ -7,7 +7,8 @@
   "scripts": {
     "react-dev": "npm run start --workspace=frontend",
     "backend-dev": "npm run start --workspace=backend",
-    "dev": "concurrently \"npm run react-dev\"  \"npm run backend-dev\""
+    "dev": "concurrently \"npm run react-dev\"  \"npm run backend-dev\"",
+    "start-server": "concurrently \"npm run react-dev\"  \"npm run backend-dev\""
   },
   "devDependencies": {
     "concurrently": "^7.4.0"
