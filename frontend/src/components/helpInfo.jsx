@@ -24,7 +24,7 @@ function Help() {
                 <Row>
                     <Col>
                         <div className="helpTitle" align="center">
-                            Information Mode:
+                            Information Mode
                         </div>
                     </Col>
                 </Row>
@@ -54,7 +54,7 @@ function Help() {
             <div className="helpDiv" align="left">
                 <Row>
                     <Col>
-                        <div className="helpTitle" align="center">Race Mode:</div>
+                        <div className="helpTitle" align="center">Race Mode</div>
                     </Col>
                 </Row>
                 <Row>
@@ -77,7 +77,7 @@ function Help() {
                 <Row>
                     <Col>
                         <div className="helpSubHeader">
-                            To answer a question:
+                            To answer a question
                         </div>
                     </Col>
                 </Row>
