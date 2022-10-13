@@ -12,7 +12,7 @@ import AspireSubmitPopup from "../components/submitPopup";
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
-function AdminRaces () {
+function AdminLinks () {
 
   const [linkID, setLinkID] = useState("");
   const [title, setTitle] = useState("");
@@ -134,4 +134,4 @@ function AdminRaces () {
   );
 }
   
-  export default AdminRaces;
+  export default AdminLinks;
