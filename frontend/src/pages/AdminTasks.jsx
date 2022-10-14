@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 //icons
 import {BsFillArrowRightSquareFill} from "react-icons/bs"
 import {BsFillArrowLeftSquareFill} from "react-icons/bs"
+import { BsFillTrashFill } from "react-icons/bs";
 
 //Components
 import Sidebar from "../components/sidebar";
@@ -112,6 +113,12 @@ function AdminTasks () {
             <td>{id}</td>
             <td>{name}</td>
             <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
+            <td>
+              <button type="button" className="btn btn-danger" onClick={function(e) { 
+                  setID(id)
+                  setRequest("deleteTask");
+                  setModalShow(true)
+                }}><BsFillTrashFill/></button></td>
           </tr>
           ))}
         </tbody>
@@ -154,7 +161,7 @@ useEffect(() => {
                   
                   <div className="form-group">
                     <label>Location:</label>
-                    <select id="place-select" value={place} onChange={(e) => setPlace(e.target.value)}>
+                    <select id="place-select" className="form-control" value={place} onChange={(e) => setPlace(e.target.value)}>
                       <option value=""></option>
                     </select>
                   </div>
@@ -170,10 +177,6 @@ useEffect(() => {
                       setRequest("changeTask");
                       setModalShow(true)
                     }}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={function(e){
-                      setRequest("deleteTask");
-                      setModalShow(true)
-                    }}>Delete</button>
                   <button type="button" className="btn btn-primary" onClick={function(e){
                       setRequest("postTask");
                       setModalShow(true)

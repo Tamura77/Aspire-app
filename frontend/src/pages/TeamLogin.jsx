@@ -30,7 +30,7 @@ function TeamLogin() {
         //       3cd = race 3 team 2
         let raceID = raceCode.substring(0,raceCode.length-2);
         let teamID = raceCode.substring(raceCode.length-2, raceCode.length);
-
+        
         // set team number
         console.log(teamID);
         const num1 = teamID.charCodeAt(0) - 97;
@@ -38,14 +38,13 @@ function TeamLogin() {
         let teamNo = (num1 + num2 - 1)/4;
         console.log(teamNo);
 
-                                        ////// NEED TO IMPLEMENT //////
         // fetch Race based on raceID
         // need to query database here
         const race = await axios.get("http://localhost:5000/races/" + raceID); 
         console.log(race);
 
         // Check if there are errors 
-        if (race.status !== 200){
+        if (race.status !== 200 || race.data.length == 0){
             console.log("bad raceID");
             setCorrect("Incorrect Race Code")
             return null;
@@ -85,7 +84,7 @@ function TeamLogin() {
                             value={raceCode}
                             onChange={(e) => setRaceCode(e.target.value)}
                             className="form-control mt-1"
-                            placeholder="Enter race code"
+                            placeholder="Enter race code (case sensitive)"
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
