@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router , Link } from "react-router-dom";
+import { BrowserRouter as Router , Link, useNavigate} from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
 import Table from 'react-bootstrap/Table';
 
@@ -51,6 +52,9 @@ import "../components/sidebar.css"
 //Below is what I currently have for the other pages - Sofia
 
 function AdminTasks () {
+
+  useEffect(verifyLogin(useNavigate()), []);
+
   const [place, setPlace] = useState("");
   const [desc, setDesc] = useState("");
   const [task, setTask] = useState("");

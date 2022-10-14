@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router , Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router , Link, useNavigate } from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 
 // Icons
 import { TbDeviceGamepad2, TbMap2 } from "react-icons/tb";
@@ -20,11 +21,7 @@ import Col from "react-bootstrap/Col";
 // Help page for information on how to use the website
 function AdminHelp() {
 
-    useEffect(() => {
-        // Get the token from local storage
-        //insert the verfication code by sending the axios post request
-        ;
-      }, []);
+    useEffect(verifyLogin(useNavigate()), []);
 
     return (
         <>

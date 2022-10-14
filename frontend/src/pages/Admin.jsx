@@ -8,31 +8,23 @@ import Form from 'react-bootstrap/Form';
 import "./styling/AdminLogin.css";
 
 function setToken(userToken) {
-    sessionStorage.setItem('token', JSON.stringify(userToken));
-}
-
-function getToken() {
-
-    const tokenString = sessionStorage.getItem('token');
-    const userToken = JSON.parse(tokenString);
-    return userToken?.token
+    sessionStorage.setItem('token', userToken);
 }
 
 function Admin(){
     
-    const [hasToken, setHasToken] = useState(false);
-    const [password, setPassword] = useState();
-    const [disable, setDisable] = useState(true);
-    const [incorrect, setIncorrect] = useState(false);
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const token = getToken();
-        const valid = axios.post("http://localhost:5000/admin/login/verify", {"token": token}); //PROBLEM MAY BE THAT I AM DOING THIS WRONG
-        setHasToken(valid);
-        if(hasToken) {
-            setDisable(false);
-            // routeChange();
-        }
+        const token = sessionStorage.getItem('token');
+        axios.post("/admin/login/verify", {"token": token}).then((response) => {
+            if(response.data.success) {
+                routeChange();
+            }
+        }).catch((e) => {
+            console.error(e);
+        });
       }, []);
 
     const navigate = useNavigate();
@@ -43,13 +35,19 @@ function Admin(){
         navigate(path);
     }
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        setIncorrect(true)
-        const token = await axios.post("http://localhost:5000/admin/login", {"password": password}); //PROBLEM MAY BE THIS IS ASSIGNING TOKEN WRONG
-        setIncorrect(false)
-        setToken(token);
-        setDisable(false);
+        axios.post("/admin/login", {"password": password}).then((response) => {
+            setToken(response.data.token);
+            routeChange();
+        }).catch((e) => {
+            setPassword("");
+            if (e.response.status == 401) {
+                setErrorMessage("Incorrect Password Please Try Again")
+            } else {
+                setErrorMessage("Server Error Please Try Again")
+            }
+        })
     }
 
     return(
@@ -57,10 +55,11 @@ function Admin(){
             <Form className="AdminLoginForm" onSubmit={handleSubmit}>
                 <div className="AdminLoginFormContent">
                     <h1 className="AdminLoginFormTitle">Admin Log In</h1>
+                    {errorMessage != "" ? <span className="FormError">{errorMessage}</span> : <></>} 
                     <div className="form-group mt-3">
-                        <label>Incorrect Please Try Again</label>
                         <input 
                         type="password" 
+                        value={password}
                         onChange={e => setPassword(e.target.value)} 
                         className="form-control mt-1"
                         placeholder="Enter Admin code"/>
@@ -68,9 +67,6 @@ function Admin(){
                     <div className="d-grid gap-2 mt-3">
                         <button type="submit" className="btn btn-primary">
                             Submit
-                        </button>
-                        <button type="button" className="btn btn-primary" disabled={disable} onClick={routeChange}>
-                            Go To Admin Pages
                         </button>
                     </div>
                 </div>
