@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 function RaceSubmitButton(props) {
     if (props.show == true){
         return (
-            <div className="fixed-bottom">
+            <div className="fixed-bottom raceSubmit-div">
                 <Button
                     className="raceSubmitButton"
                     type = "button"
