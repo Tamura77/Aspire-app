@@ -77,7 +77,12 @@ function AdminLinks () {
                   setRequest("deleteLink");
                   setModalShow(true)
                 }}><BsFillTrashFill/></button>
-                </td>
+              <button type="button" className="btn btn-primary" onClick={function(e) { 
+                  setLinkID(id)
+                  setTitle(title)
+                  setURL(url)
+                  setRequest("changeLink");
+                }}>Select</button></td>
           </tr>
           ))}
         </tbody>
@@ -125,11 +130,6 @@ function AdminLinks () {
                     }}>Update</button>
             </div>
 
-            <div className="form-group">
-              <label>Title:</label>
-              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter Title" className="form-control"></input>
-            </div>
             <AspireSubmitPopup
           submitRequest = {submitRequest}
           show = {modalShow}

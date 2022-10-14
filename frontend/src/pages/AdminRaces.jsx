@@ -90,7 +90,12 @@ function AdminRaces () {
                   setRace(id)
                   setRequest("deleteRace");
                   setModalShow(true)
-                }}><BsFillTrashFill/></button></td>
+                }}><BsFillTrashFill/></button>
+              <button type="button" className="btn btn-primary" onClick={function(e) { 
+                  setRace(id)
+                  setName(race_name)
+                  setRequest("changeRace");
+                }}>Select</button></td>
           </tr>
           ))}
         </tbody>
@@ -117,7 +122,7 @@ function AdminRaces () {
                 <div className="form-group">
                     <label>Race ID:</label>
                     <input type="text" id="ID" value={raceID} onChange={(e) => setRace(e.target.value)}
-                      placeholder="Enter Race ID" className="form-control"></input>
+                      placeholder="Enter/select Race ID" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">
@@ -133,15 +138,24 @@ function AdminRaces () {
                     onChange={(e) => setName(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
-                    setRequest("postRace");
-                    setModalShow(true)
-                  }}>Add</button>
                   <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
-                      setRequest("changeRace");
+                      if (raceID && (taskID || name)) {
+                        setRequest("changeRace");
+                        setModalShow(true);
+                        console.log(null);
+                      } else {
+                        alert("Please change a field or enter or select a valid race ID.")
+                      }
+                    }}>Update</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                    if (taskID && name) {
+                      setRequest("postRace");
                       setModalShow(true)
-                  }}>Update</button>
+                    } else {
+                      alert("Please enter a task and/or race name.")
+                    }
+                    }}>Add</button>
             </div>
         </div>
             <div className="database-table" id="tasks">

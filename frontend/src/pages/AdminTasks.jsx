@@ -57,7 +57,6 @@ function AdminTasks () {
 
   const [place, setPlace] = useState("");
   const [desc, setDesc] = useState("");
-  const [task, setTask] = useState("");
   const [taskID, setID] = useState("");
   const[tasksTable, setTasksTable] = useState(null);
   const [request, setRequest] = useState("");
@@ -65,7 +64,6 @@ function AdminTasks () {
   
 
   function changeTask() {
-    console.log(task)
     axios.patch("http://localhost:5000/admin/tasks/edit/" + taskID, {location: place, description: desc}).then(function(response){console.log(response);})
     location.reload();
   }
@@ -117,7 +115,12 @@ function AdminTasks () {
                   setID(id)
                   setRequest("deleteTask");
                   setModalShow(true)
-                }}><BsFillTrashFill/></button></td>
+                }}><BsFillTrashFill/></button>
+              <button type="button" className="btn btn-primary" onClick={function(e) { 
+                  setID(id)
+                  setDesc(description)
+                  setRequest("changeTask");
+                }}>Select</button></td>
           </tr>
           ))}
         </tbody>
