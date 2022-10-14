@@ -114,15 +114,15 @@ function AdminLinks () {
                     onChange={(e) => setURL(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary" onClick={
+                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
+                    setRequest("postLink");
+                      setModalShow(true)
+                  }}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
                       setRequest("changeLink");
                       setModalShow(true)
                     }}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={function(e){
-                      setRequest("postLink");
-                      setModalShow(true)
-                    }}>Post</button>
             </div>
 
             <div className="form-group">

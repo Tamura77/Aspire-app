@@ -133,15 +133,15 @@ function AdminRaces () {
                     onChange={(e) => setName(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary" onClick={
+                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
+                    setRequest("postRace");
+                    setModalShow(true)
+                  }}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
                       setRequest("changeRace");
                       setModalShow(true)
-                    }}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={function(e){
-                      setRequest("postRace");
-                      setModalShow(true)
-                    }}>Post</button>
+                  }}>Update</button>
             </div>
         </div>
             <div className="database-table" id="tasks">

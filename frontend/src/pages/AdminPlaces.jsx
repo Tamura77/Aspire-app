@@ -127,9 +127,9 @@ function AdminPlaces () {
                     <input type="text" className="form-control" placeholder={`${state.xcoord}` + ", " + `${state.ycoord}`}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary" onClick={changePlace}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={deletePlace}>Delete</button>
-                  <button type="button" className="btn btn-primary" onClick={postPlace}>Post</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={postPlace}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={changePlace}>Update</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={deletePlace}>Delete</button>
             </div>
             <div className="locations-table">
                 <h1>Map</h1>

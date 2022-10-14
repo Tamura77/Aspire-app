@@ -14,7 +14,6 @@ import Sidebar from "../components/sidebar";
 import AspireSubmitPopup from "../components/submitPopup";
 
 //Styling
-import "./styling/Tasks.css"
 import "../components/sidebar.css"
 
 
@@ -172,15 +171,15 @@ useEffect(() => {
                     onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary" onClick={
+                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
+                      setRequest("postTask");
+                      setModalShow(true)
+                  }}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
                       setRequest("changeTask");
                       setModalShow(true)
-                    }}>Update</button>
-                  <button type="button" className="btn btn-primary" onClick={function(e){
-                      setRequest("postTask");
-                      setModalShow(true)
-                    }}>Post</button>
+                  }}>Update</button>
             </div>
             <div className="database-table" id="tasks">
                 <h1>Tasks</h1>
