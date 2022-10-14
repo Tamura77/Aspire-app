@@ -118,11 +118,11 @@ function AdminRaces () {
       <Sidebar/>
       <div className="table-display">
             <div className="database-table">
-                <h1>Races Editor</h1>
+                <h1>Race Editor:</h1>
                 <div className="form-group">
                     <label>Race ID:</label>
                     <input type="text" id="ID" value={raceID} onChange={(e) => setRace(e.target.value)}
-                      placeholder="Enter/select Race ID" className="form-control"></input>
+                      placeholder="Enter/Select Race ID" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">
@@ -138,16 +138,6 @@ function AdminRaces () {
                     onChange={(e) => setName(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary admin-button" onClick={
-                    function(e){
-                      if (raceID && (taskID || name)) {
-                        setRequest("changeRace");
-                        setModalShow(true);
-                        console.log(null);
-                      } else {
-                        alert("Please change a field or enter or select a valid race ID.")
-                      }
-                    }}>Update</button>
                   <button type="button" className="btn btn-primary" onClick={function(e){
                     if (taskID && name) {
                       setRequest("postRace");
@@ -156,10 +146,19 @@ function AdminRaces () {
                       alert("Please enter a task and/or race name.")
                     }
                     }}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={
+                    function(e){
+                      if (raceID && (taskID || name)) {
+                        setRequest("changeRace");
+                        setModalShow(true);
+                      } else {
+                        alert("Please change a field or enter or select a valid race ID.")
+                      }
+                    }}>Update</button>
             </div>
         </div>
             <div className="database-table" id="tasks">
-                <h1>Races</h1>
+                <h1>Races:</h1>
                 {racesTable}
             </div>
             <AspireSubmitPopup

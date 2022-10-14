@@ -100,11 +100,11 @@ function AdminLinks () {
       <Sidebar/>
       <div className="table-display">
             <div className="database-table">
-                <h1>Links Editor:</h1>
+                <h1>Link Editor:</h1>
                 <div className="form-group">
                     <label>Link ID:</label>
                     <input type="text" id="ID" value={linkID} onChange={(e) => setLinkID(e.target.value)}
-                      placeholder="Enter Link ID" className="form-control"></input>
+                      placeholder="Enter/Select Link ID" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">
@@ -118,15 +118,23 @@ function AdminLinks () {
                     <input type="text" id="URL" className="form-control" placeholder="Enter URL" value={url} 
                     onChange={(e) => setURL(e.target.value)}></input>
                   </div>
-
-                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
-                    setRequest("postLink");
+                  
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                    if (title && url) {
+                      setRequest("postLink");
                       setModalShow(true)
-                  }}>Add</button>
+                    } else {
+                      alert("Please enter a title and/or URL.")
+                    }
+                    }}>Add</button>
                   <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
-                      setRequest("changeLink");
-                      setModalShow(true)
+                      if (linkID && (title || url)) {
+                        setRequest("changeLink");
+                        setModalShow(true);
+                      } else {
+                        alert("Please change a field or enter or select a valid link ID.")
+                      }
                     }}>Update</button>
             </div>
 
@@ -137,7 +145,7 @@ function AdminLinks () {
         />
         </div>
         <div className="database-table" id="tasks">
-          <h1>Links</h1>
+          <h1>Links:</h1>
           {linksTable}
         </div>
       </div>

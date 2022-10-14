@@ -158,7 +158,7 @@ useEffect(() => {
                   <div className="form-group">
                     <label>Task ID:</label>
                     <input type="text" value={taskID} onChange={(e) => setID(e.target.value)}
-                      placeholder="Enter Task ID" className="form-control"></input>
+                      placeholder="Enter/Select Task ID" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">
@@ -174,18 +174,26 @@ useEffect(() => {
                     onChange={(e) => setDesc(e.target.value)}></input>
                   </div>
 
-                  <button type="button" className="btn btn-primary admin-button" onClick={function(e){
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                    if (place && desc) {
                       setRequest("postTask");
                       setModalShow(true)
-                  }}>Add</button>
+                    } else {
+                      alert("Please enter a place and/or description.")
+                    }
+                    }}>Add</button>
                   <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
-                      setRequest("changeTask");
-                      setModalShow(true)
-                  }}>Update</button>
+                      if (taskID && (place || desc)) {
+                        setRequest("changeTask");
+                        setModalShow(true);
+                      } else {
+                        alert("Please change a field or enter or select a valid task ID.")
+                      }
+                    }}>Update</button>
             </div>
             <div className="database-table" id="tasks">
-                <h1>Tasks</h1>
+                <h1>Tasks:</h1>
                 {tasksTable}
             </div>
         </div>
