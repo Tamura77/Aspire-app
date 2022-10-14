@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
 import Table from 'react-bootstrap/Table';
 
@@ -12,7 +14,10 @@ import AspireSubmitPopup from "../components/submitPopup";
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
+
 function AdminLinks () {
+
+  useEffect(verifyLogin(useNavigate()), []);
 
   const [linkID, setLinkID] = useState("");
   const [title, setTitle] = useState("");
@@ -22,17 +27,17 @@ function AdminLinks () {
   const [modalShow, setModalShow] = useState(false);
 
   function changeLink() {
-    axios.patch("http://localhost:5000/admin/links/edit/" + linkID, {title: title, url: url}).then(function(response){console.log(response);})
+    axios.patch("http://localhost:5000/admin/links/edit/" + linkID, { title: title, url: url }).then(function (response) { console.log(response); })
     location.reload();
   }
 
   function postLink() {
-    axios.post("http://localhost:5000/admin/links/post", {title: title, url: url}).then(function(response){console.log(response);})
+    axios.post("http://localhost:5000/admin/links/post", { title: title, url: url }).then(function (response) { console.log(response); })
     location.reload();
   }
 
   function deleteLink() {
-    axios.delete("http://localhost:5000/admin/links/delete/" + linkID, {id: linkID}).then(function(response){console.log(response);})
+    axios.delete("http://localhost:5000/admin/links/delete/" + linkID, { id: linkID }).then(function (response) { console.log(response); })
     location.reload();
   }
 
@@ -81,7 +86,7 @@ function AdminLinks () {
   }
 
   useEffect(() => {
-      fetchData();
+    fetchData();
   }, [])
 
   return (
@@ -119,10 +124,11 @@ function AdminLinks () {
                       setModalShow(true)
                     }}>Post</button>
             </div>
-        </div>
-            <div className="database-table" id="tasks">
-                <h1>Links</h1>
-                {linksTable}
+
+            <div className="form-group">
+              <label>Title:</label>
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter Title" className="form-control"></input>
             </div>
             <AspireSubmitPopup
           submitRequest = {submitRequest}
@@ -130,8 +136,13 @@ function AdminLinks () {
           onHide={() => setModalShow(false)}
         />
         </div>
+        <div className="database-table" id="tasks">
+          <h1>Links</h1>
+          {linksTable}
+        </div>
+      </div>
     </>
   );
 }
-  
+
   export default AdminLinks;

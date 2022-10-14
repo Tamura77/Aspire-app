@@ -11,7 +11,9 @@ import Race from './pages/Race';
 import ExternalLinks from './pages/ExternalLinks';
 import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
-import Adminpage from './pages/Adminpage';
+import Admin from './pages/Admin';
+// Didn't sseem like this page was being used
+// import Adminpage from './pages/Adminpage';         
 import AdminTasks from './pages/AdminTasks';
 import AdminPlaces from './pages/AdminPlaces';
 import AdminTables from './pages/AdminTables';
@@ -28,7 +30,9 @@ function App() {
         <Route path="ExternalLinks" element={<ExternalLinks/>} />
         <Route path="TeamLogin" element={<TeamLogin/>}/>
         <Route path="Help" element={<Help/>}/>
-        <Route path="Adminpage" element={<Adminpage/>}/>
+        {/* Didn't seem like this page was being used */}
+        {/* <Route path="Adminpage" element={<Adminpage/>}/> */}
+        <Route path="Admin" element={<Admin/>}/>
         <Route path="AdminPlaces" element={<AdminPlaces/>}/>
         <Route path="AdminRaces" element={<AdminRaces/>}/>
         <Route path="AdminTables" element={<AdminTables/>}/>

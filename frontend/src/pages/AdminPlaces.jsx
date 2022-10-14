@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
 
 //Components
@@ -28,6 +30,9 @@ const state ={
 
 
 function AdminPlaces () {
+
+  useEffect(verifyLogin(useNavigate()), []);
+
   const [coord, setCoord] = useState([])
   const handleMouseMove = (event) =>{
     let coordinates = [event.clientX, event.clientY]
