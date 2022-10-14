@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
 import Table from 'react-bootstrap/Table';
 
@@ -13,6 +15,8 @@ import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
 function AdminRaces () {
+
+  useEffect(verifyLogin(useNavigate()), []);
 
   const [raceID, setRace] = useState("");
   const [name, setName] = useState("");

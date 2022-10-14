@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const cors = require("cors")
 app.use(cors())
@@ -544,3 +545,25 @@ app.delete("/admin/links/delete/:id", (req, res, next) => {
           }
   });
 })
+
+var jwt = require('jsonwebtoken');
+
+// Password checking and assigning a token
+app.post('/admin/login', (req, res) => {
+  if (req.body.password != process.env.ADMIN_PASSWORD) {
+    res.status(401).json({"token": null});
+    return;
+  }
+  var token = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d' });
+  res.json({"token": token});
+});
+
+app.post('/admin/login/verify', (req, res) => {
+  jwt.verify(req.body.token, process.env.JWT_SECRET, (err, _) => {
+    if(err) {
+      res.status(401).json({'success': false});
+      return;
+    }
+    res.json({'success': true});
+  })
+});

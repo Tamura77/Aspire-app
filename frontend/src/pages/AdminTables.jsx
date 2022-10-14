@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
 import Table from 'react-bootstrap/Table';
 
@@ -10,6 +12,8 @@ import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
 function AdminTables () {
+
+  useEffect(verifyLogin(useNavigate()), []);
 
   const[placesTable, setPlacesTable] = useState(null);
   const[tasksTable, setTasksTable] = useState(null);
