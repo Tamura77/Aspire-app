@@ -34,10 +34,10 @@ function AdminTables () {
         <Table striped>
           <thead>
             <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>description</th>
-              <th>coordinates</th>
+              <th>ID:</th>
+              <th>Name:</th>
+              <th>Description:</th>
+              <th>Coordinates:</th>
             </tr>
           </thead>
           <tbody>
@@ -61,16 +61,16 @@ function AdminTables () {
         <Table striped>
           <thead>
             <tr>
-              <th>id</th>
-              <th>place_id</th>
-              <th>description</th>
+              <th>ID:</th>
+              <th>Location:</th>
+              <th>Description:</th>
             </tr>
           </thead>
           <tbody>
-            {tasks.data.map(({id, place_id, description}) =>(
+            {tasks.data.map(({id, name, description}) =>(
             <tr key={id}>
               <td>{id}</td>
-              <td>{place_id}</td>
+              <td>{name}</td>
               <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
             </tr>
             ))}
@@ -82,16 +82,16 @@ function AdminTables () {
         <Table striped>
           <thead>
             <tr>
-              <th>id</th>
-              <th>task_id</th>
-              <th>race name</th>
+              <th>ID:</th>
+              <th>Task:</th>
+              <th>Race Name:</th>
             </tr>
           </thead>
           <tbody>
-            {races.data.map(({id, task_id, race_name}) =>(
+            {races.data.map(({id, description, race_name}) =>(
             <tr key={id}>
               <td>{id}</td>
-              <td>{task_id}</td>
+              <td>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</td>
               <td>{ race_name.length > 20 ? `${race_name.substring(0, 20)}...` : race_name }</td>
             </tr>
             ))}
@@ -153,15 +153,15 @@ function AdminTables () {
         <Sidebar/>
         <div className="table-display">
             <div className="database-table" id="places">
-                <h1>Places</h1>
+                <h1>Locations:</h1>
                 {placesTable}
             </div>
             <div className="database-table" id="tasks">
-                <h1>Tasks</h1>
+                <h1>Tasks:</h1>
                 {tasksTable}
             </div>
             <div className="database-table x" id="races">
-                <h1>Races</h1>
+                <h1>Races:</h1>
                 {racesTable}
             </div>
         </div>
