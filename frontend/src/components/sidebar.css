@@ -2,7 +2,7 @@
 .sidebar{
     height: 937px;  
     width: 200px;
-    background-color: rgb(91, 92, 81);
+    background-color: #003087;
 }
 
 .sidebarlist{
@@ -27,7 +27,8 @@
 }
 .sidebarlist .row:hover{
    cursor: pointer;
-   background-color: rgb(59, 59, 53); 
+   background-color: #0045c5;
+   border-radius: 0.5em;
 }
 #list{
     display: flex;
