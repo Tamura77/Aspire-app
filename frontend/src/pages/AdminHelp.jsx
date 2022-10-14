@@ -19,6 +19,13 @@ import Col from "react-bootstrap/Col";
 
 // Help page for information on how to use the website
 function AdminHelp() {
+
+    useEffect(() => {
+        // Get the token from local storage
+        //insert the verfication code by sending the axios post request
+        ;
+      }, []);
+
     return (
         <>
         <div className="admin-div">
