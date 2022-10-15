@@ -47,12 +47,12 @@ function AdminPlaces () {
      state.yoffset = coord[1] -28; 
      state.opacity = 1;
      if (state.button=="Up"){
-      state.ycoord = (0.73*((866 + state.yoffset -17 -11))).toFixed(1);   //second map so add 866px down from top map, -11 is calibration (WIP)
+      state.ycoord = (1.0422*((state.yoffset+525 ))).toFixed(1);   //second map so add 866px down from top map, -11 is calibration (WIP)
      }
      else{
-      state.ycoord = (0.73*((state.yoffset -17 -11))).toFixed(1);
+      state.ycoord = (1.0422*((state.yoffset -87))).toFixed(1);
      }
-     state.xcoord = (0.915*(state.xoffset - 1000 - 28 -11)).toFixed(1);  //map starts 1000px right off screen, 0.73 and 0.915 maps directly to geo coordinates
+     state.xcoord = (1.211*(state.xoffset - 846)).toFixed(1);  //map starts 1000px right off screen, 0.73 and 0.915 maps directly to geo coordinates
   }
 
   const swap = event =>{
@@ -103,9 +103,11 @@ function AdminPlaces () {
     <>
     <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
     <div className="admin-div">
-        <Sidebar/>
-        <div className="table-display">
-        <div className="database-table">
+      <div >
+        <Sidebar id="sidebar-location"/>
+        </div>
+        <div className="table-display" >
+        <div className="database-table" id="locations-table1">
                 <h1>Places Editor:</h1>
                 <div className="form-group">
                     <label>Place ID:</label>
@@ -134,15 +136,15 @@ function AdminPlaces () {
                   <button type="button" className="btn btn-primary admin-button" onClick={changePlace}>Update</button>
                   <button type="button" className="btn btn-primary admin-button" onClick={deletePlace}>Delete</button>
             </div>
-            <div className="locations-table">
+            <div className="locations-table" >
                 <h1>Map</h1>
                 <button className="swap-map" onClick={swap}>{`${state.button}`}</button>
                 {
-                  show1?<img className="mapsvg"  onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map1} alt="campus map1">
+                  show1?<img className="mapsvg" id="map-top" onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map1} alt="campus map1">
                   </img>:null
                 } 
                 {
-                  show2?<img className="mapsvg"  onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map2} alt="campus map2">
+                  show2?<img className="mapsvg" id="map-bot"  onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map2} alt="campus map2">
                   </img>:null
                 }
                 <div id="marker" style={{position: "absolute", left: `${state.xoffset}px`, top: `${state.yoffset}px`, opacity: `${state.opacity}`,}}>

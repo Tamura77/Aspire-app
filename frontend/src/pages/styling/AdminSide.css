@@ -32,9 +32,29 @@
     height: 100px;
 }
 
+#location-div{
+    height: 653px;
+}
+
+#map-top{
+    height:597px;
+}
+
+#map-bot{
+    height:597px;
+}
+
+#locations-table1{
+    height: 653px;
+}
+
+#sidebar-location{
+    height: 100px;
+    background-color: aqua;
+}
 .locations-table{
     width: 100%;
-    height: 937px;
+    height: 653px;
     margin: 0px 0px 0px 5px;
     background-color: white;
 }
