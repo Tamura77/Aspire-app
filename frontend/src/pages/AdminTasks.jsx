@@ -16,6 +16,8 @@ import AspireSubmitPopup from "../components/submitPopup";
 //Styling
 import "../components/sidebar.css"
 
+import logo from "../assets/images/uwa.svg";
+
 
 //Below is what was initially here it can just be uncommented out if you prefer it - Sofia
 
@@ -150,6 +152,7 @@ useEffect(() => {
 
   return (
     <>
+    <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
     <div className="admin-div">
         <Sidebar/>
         <div className="table-display">

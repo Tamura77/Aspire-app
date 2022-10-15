@@ -15,7 +15,7 @@ import { useState } from "react";
 function AspireNavbar() {
     if (localStorage.getItem("racemarkers") === null){
         return(
-        <div className="navbarPadding">
+        <div className="navbarPadding d-none d-sm-block">
         <Navbar className="fixed-bottom navbarDefault" expand="sm" bg="light" variant="light">
             <Nav className="m-auto">
                 <Nav.Link href="/TeamLogin">
@@ -34,7 +34,7 @@ function AspireNavbar() {
     }
     else{
         return (
-        <div className="navbarPadding">
+        <div className="navbarPadding d-none d-sm-block">
         <Navbar className="fixed-bottom navbarDefault" expand="sm" bg="light" variant="light">
             <Nav className="m-auto">
                 <Nav.Link href="/Race">

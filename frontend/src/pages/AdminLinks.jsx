@@ -10,6 +10,8 @@ import { BsFillTrashFill } from "react-icons/bs";
 import Sidebar from "../components/sidebar";
 import AspireSubmitPopup from "../components/submitPopup";
 
+import logo from "../assets/images/uwa.svg";
+
 //Styling
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
@@ -96,6 +98,7 @@ function AdminLinks () {
 
   return (
     <>
+    <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
     <div className="admin-div">
       <Sidebar/>
       <div className="table-display">

@@ -11,6 +11,8 @@ import Sidebar from "../components/sidebar";
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
+import logo from "../assets/images/uwa.svg";
+
 function AdminTables () {
 
   useEffect(verifyLogin(useNavigate()), []);
@@ -149,6 +151,7 @@ function AdminTables () {
 
   return (
     <>
+    <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
     <div className="admin-div">
         <Sidebar/>
         <div className="table-display">

@@ -14,6 +14,8 @@ import AspireSubmitPopup from "../components/submitPopup";
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
 
+import logo from "../assets/images/uwa.svg";
+
 function AdminRaces () {
 
   useEffect(verifyLogin(useNavigate()), []);
@@ -114,6 +116,7 @@ function AdminRaces () {
 
   return (
     <>
+    <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
     <div className="admin-div">
       <Sidebar/>
       <div className="table-display">

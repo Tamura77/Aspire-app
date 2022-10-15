@@ -13,6 +13,8 @@ import Sidebar from "../components/sidebar";
 // CSS
 import "./styling/Help.css"
 
+import logo from "../assets/images/uwa.svg";
+
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -25,6 +27,7 @@ function AdminHelp() {
 
     return (
         <>
+        <header><img className="logo" src={logo} alt="UWA"></img><h1>Aspire UWA</h1><h2 className="sub-text">Web-App Admin Page</h2></header>
         <div className="admin-div">
             <Sidebar/>
             <div className="helpWrappingDiv" style={{width: "100%"}}>
