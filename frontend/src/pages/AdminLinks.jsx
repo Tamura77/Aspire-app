@@ -24,17 +24,18 @@ function AdminLinks () {
   const [linkID, setLinkID] = useState("");
   const [title, setTitle] = useState("");
   const [url, setURL] = useState("");
+  const [cat, setCat] = useState("");
   const [linksTable, setLinksTable] = useState(null);
   const [request, setRequest] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
   function changeLink() {
-    axios.patch("http://localhost:5000/admin/links/edit/" + linkID, { title: title, url: url }).then(function (response) { console.log(response); })
+    axios.patch("http://localhost:5000/admin/links/edit/" + linkID, { title: title, url: url, cat: cat }).then(function (response) { console.log(response); })
     location.reload();
   }
 
   function postLink() {
-    axios.post("http://localhost:5000/admin/links/post", { title: title, url: url }).then(function (response) { console.log(response); })
+    axios.post("http://localhost:5000/admin/links/post", { title: title, url: url, cat: cat }).then(function (response) { console.log(response); })
     location.reload();
   }
 
@@ -65,14 +66,16 @@ function AdminLinks () {
             <th>Link ID:</th>
             <th>Title:</th>
             <th>URL:</th>
+            <th>Category:</th>
           </tr>
         </thead>
         <tbody>
-          {links.data.map(({id, title, url}) =>(
+          {links.data.map(({id, title, url, category}) =>(
           <tr key={id}>
             <td>{id}</td>
             <td>{ title.length > 20 ? `${title.substring(0, 40)}...` : title }</td>
             <td>{ url.length > 20 ? `${url.substring(0, 20)}...` : url }</td>
+            <td>{category}</td>
             <td>
               <button type="button" className="btn btn-danger" onClick={function(e) { 
                   setLinkID(id)
@@ -83,6 +86,7 @@ function AdminLinks () {
                   setLinkID(id)
                   setTitle(title)
                   setURL(url)
+                  setCat(category)
                   setRequest("changeLink");
                 }}>Select</button></td>
           </tr>
@@ -121,18 +125,28 @@ function AdminLinks () {
                     <input type="text" id="URL" className="form-control" placeholder="Enter URL" value={url} 
                     onChange={(e) => setURL(e.target.value)}></input>
                   </div>
+
+                  <div className="form-group">
+                    <label>Link Category:</label>
+                    <select id="cat-select" className="form-control" value={cat} onChange={(e) => setCat(e.target.value)}>
+                      <option value=""></option>
+                      <option value="UWA">UWA</option>
+                      <option value="External">External</option>
+                      <option value="Survey">Survey</option>
+                    </select>
+                  </div>
                   
                   <button type="button" className="btn btn-primary" onClick={function(e){
-                    if (title && url) {
+                    if (title && url && cat) {
                       setRequest("postLink");
                       setModalShow(true)
                     } else {
-                      alert("Please enter a title and/or URL.")
+                      alert("Please enter a title, URL and/or category.")
                     }
                     }}>Add</button>
                   <button type="button" className="btn btn-primary admin-button" onClick={
                     function(e){
-                      if (linkID && (title || url)) {
+                      if (linkID && (title || url || cat)) {
                         setRequest("changeLink");
                         setModalShow(true);
                       } else {

@@ -14,6 +14,7 @@ function ExternalLinks() {
 
   const [uwaLinks, setUwaLinks] = useState("");
   const [otherLinks, setOtherLinks] = useState("");
+  const [surveyLinks, setSurveyLinks] = useState("");
 
   const fetchLinks = async () => {
     const links = await axios.get("http://localhost:5000/table/links");
@@ -27,7 +28,15 @@ function ExternalLinks() {
     );
 
     setOtherLinks(
-      links.data.filter(({category}) => (category == "Other")).map(({id, title, url}) =>(
+      links.data.filter(({category}) => (category == "External")).map(({id, title, url}) =>(
+        <Button key={id} variant="light" size="lg" href={url} target="_blank">
+          <h3>{title}</h3>
+        </Button>
+      ))
+    );
+
+    setSurveyLinks(
+      links.data.filter(({category}) => (category == "Survey")).map(({id, title, url}) =>(
         <Button key={id} variant="light" size="lg" href={url} target="_blank">
           <h3>{title}</h3>
         </Button>
@@ -48,6 +57,8 @@ function ExternalLinks() {
         {uwaLinks}
         <h1>Useful External Links</h1>
         {otherLinks}
+        <h1>Student Survey</h1>
+        {surveyLinks}
       </div>
     
     </div>

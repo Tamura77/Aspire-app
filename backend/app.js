@@ -481,15 +481,18 @@ app.patch("/admin/links/edit/:id", (req, res, next) => {
       console.error(err.message);
     }
   });
-  var sql = 'UPDATE links set title = ?, url = ? WHERE ID = ?'
-  params = [req.body.title, req.body.url, req.params.id]
-  if (req.body.title == "" && req.body.url != "") {
+  var sql = 'UPDATE links set title = ?, url = ?, category = ? WHERE ID = ?'
+  params = [req.body.title, req.body.url, req.body.cat, req.params.id]
+  if (req.body.title == "" && req.body.cat == "" && req.body.url != "") {
     var sql = 'UPDATE links set url = ? WHERE ID = ?'
     params = [req.body.url, req.params.id]
-  } else if (req.body.url == "" && req.body.title != "") {
+  } else if (req.body.url == "" && req.body.cat == "" && req.body.title != "") {
     var sql = 'UPDATE links set title = ? WHERE ID = ?'
     params = [req.body.title, req.params.id]
-  } else if (req.body.title == "" && req.body.url == "") {
+  } else if (req.body.url == "" && req.body.title == "" && req.body.cat != "") {
+    var sql = 'UPDATE links set category = ? WHERE ID = ?'
+    params = [req.body.cat, req.params.id]
+  } else if (req.body.title == "" && req.body.url == "" && req.body.cat == "") {
       return;
   }
   db.run(
@@ -513,11 +516,11 @@ app.post("/admin/links/post", (req, res, next) => {
       console.error(err.message);
     }
   });
-  if (req.body.title == '' || req.body.url == '') {
+  if (req.body.title == '' || req.body.url == '' || req.body.cat == '') {
     return;
   }
-  var sql = 'INSERT INTO links (title, url) VALUES (?,?)'
-  params = [req.body.title, req.body.url]
+  var sql = 'INSERT INTO links (title, url, category) VALUES (?,?,?)'
+  params = [req.body.title, req.body.url, req.body.cat]
   db.run(sql, params, function(err, result) {
       if (err){
           res.status(400).json({"error": err.message})
