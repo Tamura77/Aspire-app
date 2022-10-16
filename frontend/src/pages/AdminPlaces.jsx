@@ -108,17 +108,17 @@ function AdminPlaces () {
         </div>
         <div className="table-display" >
         <div className="database-table" id="locations-table1">
-                <h1>Places Editor:</h1>
+                <h1>Locations Editor:</h1>
                 <div className="form-group">
-                    <label>Place ID:</label>
+                    <label>Location ID:</label>
                     <input type="text" value={placeID} onChange={(e) => setPlaceID(e.target.value)}
-                      placeholder="Enter Place ID" className="form-control"></input>
+                      placeholder="Enter Location ID" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">
-                    <label>Place Name:</label>
+                    <label>Location Name:</label>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                      placeholder="Enter Place Name" className="form-control"></input>
+                      placeholder="Enter Location Name" className="form-control"></input>
                   </div>
                   
                   <div className="form-group">

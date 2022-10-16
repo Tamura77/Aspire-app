@@ -1,7 +1,7 @@
 /* Side bar height to lock scrolling (can adjust later) */
 .sidebar{
     height: 937px;  
-    width: 200px;
+    min-width: 180px;
     background-color: #003087;
 }
 
