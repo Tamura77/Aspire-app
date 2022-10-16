@@ -51,6 +51,7 @@ app.get("/races/:id", function(req, res) {
   });
   var race_name = req.params.id;
   var params = [];
+  race_name = "'" + race_name + "'"
   db.serialize(() => {
     db.all('SELECT places.coordinates, places.name, tasks.description, tasks.colour, tasks.number FROM tasks JOIN places ON tasks.place_id = places.id JOIN races ON races.task_id = tasks.id WHERE races.race_name =' + race_name + ';', params, (err, rows) => {
       if (err) {
