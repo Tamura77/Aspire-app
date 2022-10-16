@@ -5,14 +5,14 @@ import "./raceSubmitButton.css";
 import Button from "react-bootstrap/Button";
 
 
-function RaceSubmitButton(props) {
+function RaceForfeitButton(props) {
     if (props.show == true){
         return (
             <div className="fixed-bottom raceSubmit-div">
                 <Button
                     className="raceSubmitButton"
                     type = "button"
-                    variant="success"
+                    variant="danger"
                     onClick={function(e){
                         localStorage.removeItem("racemarkers");
                         localStorage.removeItem("raceanswers");
@@ -21,10 +21,10 @@ function RaceSubmitButton(props) {
                     }}
                     href='/'
                     >
-                    Submit
+                    Forfeit
                 </Button>
             </div>
         );
     }
 }
-export default RaceSubmitButton;
+export default RaceForfeitButton;

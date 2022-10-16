@@ -8,6 +8,7 @@ import AspireNavbar from "../components/navbar";
 import HelpButton from "../components/helpButton";
 import AspireRacePopup from "../components/racePopup";
 import RaceSubmitButton from '../components/raceSubmitButton';
+import RaceForfeitButton from '../components/raceForfeitButton';
 
 import map from "../assets/images/campusmap.svg"
 
@@ -27,6 +28,7 @@ function Race() {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [submitShow, setSubmitShow] = useState(false);
+  const [forfeitShow, setForfeitShow] = useState(true);
   
   // States of markers
   const [markers, setMarkers] = useState(JSON.parse(localStorage.getItem("racemarkers")));
@@ -91,6 +93,8 @@ function Race() {
       if (marker.name == id){ 
         // Show Submit Button on Last Submission
         if (parseInt(marker.number) === markers.length){
+          setForfeitShow(false)
+          localStorage.setItem("finish", "true");
           setSubmitShow(true)
         }
 
@@ -103,7 +107,14 @@ function Race() {
     localStorage.setItem("racemarkers", JSON.stringify(updatedMarkers));
     setMarkers(updatedMarkers);
   }
-    
+
+  useEffect(() => {
+    if (localStorage.getItem("finish") === "true") {
+      setForfeitShow(false);
+      setSubmitShow(true);
+    }
+}, [])
+
   return (
     <div className="mappage">
       <img src={map} alt="campus map"></img>
@@ -115,6 +126,9 @@ function Race() {
       <HelpButton />
       <RaceSubmitButton
         show = {submitShow}
+      />
+      <RaceForfeitButton
+        show = {forfeitShow}
       />
       <AspireRacePopup
         name = {raceName}

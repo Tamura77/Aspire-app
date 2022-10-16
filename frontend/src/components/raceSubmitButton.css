@@ -1,6 +1,8 @@
 /* CSS for Race Submit Button component */
 .raceSubmit-div{
     text-align: center;
+    height: 60px;
+    margin-bottom: 130px;
 }
 
 .raceSubmitButton {
