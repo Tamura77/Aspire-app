@@ -81,6 +81,7 @@ function AdminPlaces () {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   //Not yet requesting coordinates/location
+  //Also - to remove the "acitve" column in the Places table
   //const[racesTable, setRacesTable] = useState(null); Only needed if we add the place table at the bottom of the page.
 
   function changePlace() {

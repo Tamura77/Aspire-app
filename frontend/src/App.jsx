@@ -11,7 +11,9 @@ import Race from './pages/Race';
 import ExternalLinks from './pages/ExternalLinks';
 import Help from './pages/Help';
 import PageNotFound from './pages/PageNotFound';
-import Admin from './pages/Admin';       
+import Admin from './pages/Admin';
+// Didn't sseem like this page was being used
+// import Adminpage from './pages/Adminpage';         
 import AdminTasks from './pages/AdminTasks';
 import AdminPlaces from './pages/AdminPlaces';
 import AdminTables from './pages/AdminTables';
