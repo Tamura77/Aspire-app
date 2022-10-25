@@ -2,12 +2,15 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyLogin } from "../utils/verifyLogin";
 import axios from "axios"
+import Table from 'react-bootstrap/Table';
 
 //Components
 import Sidebar from "../components/sidebar";
+import AspireSubmitPopup from "../components/submitPopup";
 
 //icons
 import {BsFillCircleFill} from "react-icons/bs"
+import {BsFillTrashFill} from "react-icons/bs"
 //Styling
 import "./styling/AdminSide.css"
 import "../components/sidebar.css"
@@ -80,17 +83,21 @@ function AdminPlaces () {
   const [placeID, setPlaceID] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [coords1, setCoords1] = useState("");
+  const [placesTable, setPlacesTable] = useState(null);
+  const [request, setRequest] = useState("");
+  const [modalShow, setModalShow] = useState(false);
   //Not yet requesting coordinates/location
   //Also - to remove the "acitve" column in the Places table
   //const[racesTable, setRacesTable] = useState(null); Only needed if we add the place table at the bottom of the page.
 
   function changePlace() {
-    axios.patch("http://localhost:5000/admin/places/edit/" + placeID, {place_name: name, description: desc, coords: `${state.xcoord}` + ", " + `${state.ycoord}`}).then(function(response){console.log(response);})
+    axios.patch("http://localhost:5000/admin/places/edit/" + placeID, {place_name: name, description: desc, coords: coords1}).then(function(response){console.log(response);})
     location.reload();
   }
 
   function postPlace() {
-    axios.post("http://localhost:5000/admin/places/post", {place_name: name, description: desc, coords: `${state.xcoord}` + ", " + `${state.ycoord}`}).then(function(response){console.log(response);})
+    axios.post("http://localhost:5000/admin/places/post", {place_name: name, description: desc, coords: coords1}).then(function(response){console.log(response);})
     location.reload();
   }
 
@@ -98,6 +105,65 @@ function AdminPlaces () {
     axios.delete("http://localhost:5000/admin/places/delete/" + placeID, {id: placeID}).then(function(response){console.log(response);})
     location.reload();
   }
+
+  function submitRequest() {
+    if (request == "changePlace") {
+      changePlace();
+    }
+    else if (request == "deletePlace") {
+      deletePlace();
+    }
+    else if (request == "postPlace"){
+      postPlace();
+    }
+  }
+
+  const fetchData = async () => {
+    const places = await axios.get("http://localhost:5000/table/places");
+
+    setPlacesTable(
+      <Table striped>
+        <thead>
+          <tr>
+            <th>ID:</th>
+            <th>Name:</th>
+            <th>Description:</th>
+            <th>Coordinates:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {places.data.map(({id, name, coordinates, description}) =>(
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{name}</td>
+            <td>
+              {description.length > 20 ? `${description.substring(0, 20)}...` : description}
+            </td>
+            <td>{coordinates}</td>
+            <td>
+              <button type="button" className="btn btn-danger" onClick={function(e) { 
+                  setPlaceID(id)
+                  setRequest("deletePlace")
+                  setModalShow(true)
+                }}><BsFillTrashFill/></button>
+              <button type="button" className="btn btn-primary" onClick={function(e) { 
+                  setPlaceID(id)
+                  setName(name)
+                  setDesc(description)
+                  setCoords1(coordinates)
+                  setRequest("changePlace");
+                }}>Select</button></td>
+          </tr>
+          ))}
+        </tbody>
+      </Table>
+    );
+
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <>
@@ -107,7 +173,7 @@ function AdminPlaces () {
         <Sidebar id="sidebar-location"/>
         </div>
         <div className="table-display" >
-        <div className="database-table" id="locations-table1">
+        <div className="database-table">
                 <h1>Locations Editor:</h1>
                 <div className="form-group">
                     <label>Location ID:</label>
@@ -129,28 +195,41 @@ function AdminPlaces () {
 
                   <div className="form-group">
                     <label>Coordinates:</label>
-                    <input type="text" className="form-control" placeholder={`${state.xcoord}` + ", " + `${state.ycoord}`}></input>
+                    <input type="text" className="form-control" placeholder="Enter Coordinates" value={coords1} onChange={(e) => setCoords1(e.target.value)}></input>
                   </div>
-
-                  <button type="button" className="btn btn-primary admin-button" onClick={postPlace}>Add</button>
-                  <button type="button" className="btn btn-primary admin-button" onClick={changePlace}>Update</button>
-                  <button type="button" className="btn btn-primary admin-button" onClick={deletePlace}>Delete</button>
+                  <button type="button" className="btn btn-primary" onClick={function(e){
+                    if (name && desc && coords1) {
+                      setRequest("postPlace");
+                      setModalShow(true)
+                    } else {
+                      alert("Please enter a location name, description and/or coordinates.")
+                    }
+                    }}>Add</button>
+                  <button type="button" className="btn btn-primary admin-button" onClick={
+                    function(e){
+                      if (placeID && (name || desc || coords1)) {
+                        setRequest("changePlace");
+                        setModalShow(true);
+                      } else {
+                        alert("Please change a field or enter or select a valid location ID.")
+                      }
+                    }}>Update</button>
+                    <p className="note"><span>Note:</span> map coordinates span across 170,89 to -170,-89. 
+                    <list> 
+                      <li>170,89 refers to the top right of the map</li>
+                      <li>-170,89 refers to the top left of the map</li>
+                      <li>170,-89 refers to the bottom right of the map</li>
+                      <li>-170,-89 refers to the bottom left of the map</li>
+                    </list></p>
+                  <AspireSubmitPopup
+                      submitRequest = {submitRequest}
+                      show = {modalShow}
+                      onHide={() => setModalShow(false)}
+                  />
             </div>
-            <div className="locations-table" >
-                <h1>Map</h1>
-                <button className="swap-map" onClick={swap}>{`${state.button}`}</button>
-                {
-                  show1?<img className="mapsvg" id="map-top" onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map1} alt="campus map1">
-                  </img>:null
-                } 
-                {
-                  show2?<img className="mapsvg" id="map-bot"  onMouseMove={(event) => handleMouseMove(event)} onClick={store}src={map2} alt="campus map2">
-                  </img>:null
-                }
-                <div id="marker" style={{position: "absolute", left: `${state.xoffset}px`, top: `${state.yoffset}px`, opacity: `${state.opacity}`,}}>
-                <BsFillCircleFill/>
-                </div>
-                
+            <div className="database-table" >
+                <h1>Locations:</h1>
+                {placesTable}
             </div>
         </div>
     </div>

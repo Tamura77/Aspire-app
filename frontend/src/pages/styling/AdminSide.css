@@ -106,3 +106,13 @@ header h1 {
     color: rgba(255, 255, 255, 0.9);
     font-style: italic;
 }
+
+.note {
+    font-size: 1.2vh;
+    text-align: left;
+    padding: 0.5vh;
+}
+
+.note span {
+    font-style: italic;
+}
